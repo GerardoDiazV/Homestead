@@ -28,6 +28,6 @@ svg {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 5vw;
+    height: 10vw;
     /* set height to pixels if you want angle to change with screen width */
 }
