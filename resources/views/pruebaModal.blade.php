@@ -14,7 +14,7 @@
 <body>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    El edit para el gerardo
+    El edit para el sebastian
 </button>
 
 <!-- Modal -->
