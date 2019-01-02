@@ -8,7 +8,7 @@
         <div class="flex-center pt-5">
             <div class="content">
                 <div class="title m-b-md pt-5">
-                    VINCULINK 
+                    VINCULINK
                 </div>
 
                 <div class="links">
