@@ -49,3 +49,7 @@ Route::get('/registroExtension/{id}/editar', 'ActividadExtensionController@edit'
 
 Route::get('/registroASP', 'ActividadASPController@create')->name('registroASP');
 Route::post('/registroASP', 'ActividadASPController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
