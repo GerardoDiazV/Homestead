@@ -11,6 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // La creación de datos de roles debe ejecutarse primero
+        $this->call(RoleTableSeeder::class);
+
+        // Los usuarios necesitarán los roles previamente generados
+        $this->call(UserTableSeeder::class);
+
         $this->truncateTables([
             'convenios',
             'organizacions',
@@ -19,14 +25,6 @@ class DatabaseSeeder extends Seeder
             'actividad_a_s_p__organizacions',
             'users'
         ]);
-
-        $this->call(UserSeeder::class);
-        $this->call(OrganizacionSeeder::class);
-        $this->call(ConvenioSeeder::class);
-        $this->call(ActividadExtensionSeeder::class);
-        $this->call(ActividadASPSeeder::class);
-        $this->call(ActividadASPOrganizacionSeeder::class);
-
     }
 
     protected function truncateTables(array $tables)
