@@ -15,7 +15,6 @@
         </div>
     @endif
 <body>
-
 <div class="container">
     <form autocomplete="off" method="POST" action="{{url('/registroExtension')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
