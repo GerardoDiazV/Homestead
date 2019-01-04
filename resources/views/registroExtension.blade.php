@@ -17,7 +17,7 @@
 <body>
 
 <div class="container">
-    <form autocomplete="off" method="POST" action="{{url('/registroExtension')}}">
+    <form autocomplete="off" method="POST" action="{{url('/registroExtension')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group row">
             <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>
@@ -104,7 +104,7 @@
         <div class="form-group row">
             <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" name= "evidencia" id="inputEvidencia">
+                <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia">
             </div>
         </div>
 

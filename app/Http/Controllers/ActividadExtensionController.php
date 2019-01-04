@@ -39,37 +39,29 @@ class ActividadExtensionController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = request()->all();
         $request->validate([
             'nombre' => 'required|alpha',
             'localizacion' => 'required',
             'fecha' => 'required',
             'cant_asistentes' => 'required',
-            'evidencia' => 'required',
+            'inputEvidencia' => 'required',
             'convenio_id' => 'nullable',
             'oradores.*' => 'bail|required|alpha',
             'organizadores.*' => 'bail|required|alpha'
 
         ]);
-
+        $file = $request->file('inputEvidencia')->store('Evidencias');
         $oradores = $data['oradores'];
         $organizadores = $data['organizadores'];
-        foreach ($oradores as $key=>$value){
-
-            $request->validate([
-
-            ]);
-        }
-        foreach ($organizadores as $organizador){
-
-        }
 
         ActividadExtension::create([
         'nombre' => $data['nombre'],
         'localizacion' => $data['localizacion'],
         'fecha' => $data['fecha'],
         'cant_asistentes' => $data['cant_asistentes'],
-        'evidencia' => $data['evidencia'],
+        'evidencia' => $file,
         'convenio_id' => $data['convenio_id'],
         ]);
 
