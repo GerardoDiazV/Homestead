@@ -150,7 +150,9 @@ return [
         'oradores[0]' => 'Orador/es',
         'oradores.*' => 'Orador/es',
         'organizadores[0]' => 'Organizador/es',
-        'organizadores.*' => 'Organizador/es'
+        'organizadores.*' => 'Organizador/es',
+        'periodo'=> 'Periodo',
+        'socioComunatario'=>'Socio Comunitario',
 
     ],
 

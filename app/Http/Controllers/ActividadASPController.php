@@ -38,6 +38,18 @@ class ActividadASPController extends Controller
     public function store(Request $request)
     {
         $data = request()->all();
+        $request->validate([
+            'nombre' => 'required|alpha',
+            'asignatura' => 'required',
+            'profesor' => 'required',
+            'periodo' => 'required',
+            'cant_estudiantes'=> 'required',
+            'socioComunitario' => 'required|alpha',
+            'inputEvidencia' => 'required'
+
+        ]);
+
+        $file = $request->file('inputEvidencia')->store('Evidencias');
 
         ActividadASP::create([
             'nombre' => $data['nombre'],
@@ -45,7 +57,7 @@ class ActividadASPController extends Controller
             'profesor' => $data['profesor'],
             'periodo' => $data['periodo'],
             'cant_estudiantes' => $data['cant_estudiantes'],
-            'evidencia' => $data['evidencia'],
+            'evidencia' => $file,
         ]);
 
         $socioComunitario = $data['nombre_organizacion'];
