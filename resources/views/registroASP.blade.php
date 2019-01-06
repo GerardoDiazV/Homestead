@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputAsigntura" class="col-sm-2 col-form-label">Asignatura</label>
+            <label for="inputAsignatura" class="col-sm-2 col-form-label">Asignatura</label>
             <div class="col-sm-3">
                 <input type="text" class="form-control" name= "asignatura" id="inputAsignatura">
             </div>
@@ -38,9 +38,16 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputPeriodo" class="col-sm-2 col-form-label">Periodo</label>
+            <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Periodo</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" name= "periodo" id="inputPeriodo">
+                <select class="form-control" name = "periodo" id="exampleFormControlSelect1">
+                    <option>2018-2</option>
+                    <option>2018-1</option>
+                    <option>2017-2</option>
+                    <option>2017-1</option>
+                    <option>2016-2</option>
+                    <option>2016-1</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
@@ -52,7 +59,7 @@
         </div>
 
         <div class="form-group row">
-            <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre socio comunitario</label>
+            <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre Socio Comunitario</label>
             <div class="col-sm-3">
                 <input type="text" class="form-control" name= "nombre_organizacion" id="inputOrganizacion">
             </div>

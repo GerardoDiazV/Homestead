@@ -45,7 +45,7 @@ class ActividadASPController extends Controller
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
             'socioComunitario' => 'required|alpha',
-            'inputEvidencia' => 'required'
+            'inputEvidencia' => 'required|file:pdf',
 
         ]);
 

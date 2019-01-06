@@ -42,6 +42,8 @@ class ConvenioController extends Controller
         $data = request()->all();
 
 
+
+        $file = $request->file('inputEvidencia')->store('Evidencias');
         Convenio::create([
             'fecha_inicio' => $data['fecha_inicio'],
             'fecha_termino' => $data['fecha_termino'],
