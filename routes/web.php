@@ -53,3 +53,7 @@ Route::post('/registroASP', 'ActividadASPController@store');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::put('post/{id}', function ($id) {
+    //
+})->middleware('auth', 'role:admin');   
