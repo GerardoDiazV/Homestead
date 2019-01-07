@@ -46,7 +46,7 @@ class ActividadExtensionController extends Controller
             'localizacion' => 'required',
             'fecha' => 'required',
             'cant_asistentes' => 'required',
-            'inputEvidencia' => 'required',
+            'inputEvidencia' => 'required|file:pdf',
             'convenio_id' => 'nullable',
             'oradores.*' => 'bail|required|alpha',
             'organizadores.*' => 'bail|required|alpha'
