@@ -45,8 +45,6 @@ class DatabaseSeeder extends Seeder
         ActividadASPOrganizacionSeeder::class,
         ConvenioSeeder::class,
         ]);
->>>>>>> 25477ed7bee27ef14f0185942a480a1bd32ce016
-
     }
 
     protected function truncateTables(array $tables)
