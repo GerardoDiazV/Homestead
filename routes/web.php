@@ -54,6 +54,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::put('post/{id}', function ($id) {
-    //
-})->middleware('auth', 'role:admin');   
+Route::put('post/{id}', function (){
+    Route.get('/',function(){
+        return view('welcome');
+    });
+})->middleware('auth', 'role:admin');
+
+Route::get('/home', function () {
+    return redirect()->route('logout');
+});
