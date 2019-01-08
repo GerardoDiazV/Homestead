@@ -39,28 +39,31 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/registros', 'RegistroController@menu')->name('menuRegistros');
+        Route::get('/registros', 'RegistroController@menu')->name('menuRegistros');
 
-Route::get('/registroConvenio', [ 'uses' => 'ConvenioController@create'])->name('registroConvenio');
-Route::post('/registroConvenio', [ 'uses' => 'ConvenioController@store']);
+        Route::get('/registroConvenio', ['uses' => 'ConvenioController@create'])->name('registroConvenio');
+        Route::post('/registroConvenio', ['uses' => 'ConvenioController@store']);
 
-Route::get('/registroExtension', 'ActividadExtensionController@create')->name('registroExtension');
-Route::post('/registroExtension', 'ActividadExtensionController@store');
-Route::get('/registroExtension/{id}/editar', 'ActividadExtensionController@edit');
+        Route::get('/registroExtension', 'ActividadExtensionController@create')->name('registroExtension');
+        Route::post('/registroExtension', 'ActividadExtensionController@store');
+        Route::get('/registroExtension/{id}/editar', 'ActividadExtensionController@edit');
 
-Route::get('/registroASP', 'ActividadASPController@create')->name('registroASP');
-Route::post('/registroASP', 'ActividadASPController@store');
+        Route::get('/registroASP', 'ActividadASPController@create')->name('registroASP');
+        Route::post('/registroASP', 'ActividadASPController@store');
 
-Auth::routes();
+        Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('/home', 'HomeController@index')->name('home');
 
-Route::put('post/{id}', function (){
-    //
-})->middleware('auth', 'role:admin');
+        Route::put('post/{id}', function () {
+            //
+        })->middleware('auth', 'role:admin');
 
-Route::get('/home', function () {
-    return redirect()->route('logout');
-});
+        Route::get('/home', function () {
+            return redirect()->route('logout');
+        });
+
+
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
