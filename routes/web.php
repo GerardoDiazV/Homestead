@@ -38,6 +38,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::prefix('Administracion')->group(function(){
+    Route::middleware(['auth', 'role:Administrador'])->group(function (){
+
 Route::get('/registros', 'RegistroController@menu')->name('menuRegistros');
 
 Route::get('/registroConvenio', [ 'uses' => 'ConvenioController@create'])->name('registroConvenio');
@@ -55,11 +58,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::put('post/{id}', function (){
-    Route.get('/',function(){
-        return view('welcome');
-    });
+    //
 })->middleware('auth', 'role:admin');
 
 Route::get('/home', function () {
     return redirect()->route('logout');
 });
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
