@@ -38,8 +38,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::prefix('Administracion')->group(function(){
-    Route::middleware(['auth', 'role:Administrador'])->group(function (){
 
 Route::get('/registros', 'RegistroController@menu')->name('menuRegistros');
 
@@ -66,5 +64,3 @@ Route::get('/home', function () {
 });
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
