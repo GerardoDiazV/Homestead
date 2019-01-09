@@ -13,7 +13,7 @@
     </head>
 <body>
 <div class="top-right links">
-    <a href="{{ route('logout') }}"><font color="white">Cerrar Sesion</font></a>
+    <a href="{{ route('logout') }}"><font color="white">Cerrar Sesión</font></a>
 </div>
 <div class="container ancho p-5">
     <a class="btn btn-primary btn-block " href="{{route('registroConvenio')}}" role="button"><font size="5">Registrar Convenios de Colaboración</font></a>
