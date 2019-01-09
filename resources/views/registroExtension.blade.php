@@ -151,7 +151,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                        <a type="button" class="btn btn-primary" href="{{route('menuRegistros')}}" role="button">Cancelar registro</a>
+                        <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
                     </div>
                 </div>
             </div>

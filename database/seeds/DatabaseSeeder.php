@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         OrganizacionSeeder::class,
         ActividadASPOrganizacionSeeder::class,
         ConvenioSeeder::class,
-        asignatura_seeder::class,
+        AsignaturaSeeder::class,
         ]);
     }
 
