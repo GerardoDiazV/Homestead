@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ActividadASP;
 use App\Organizacion;
+use App\Asignatura;
 use App\ActividadASP_Organizacion;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,9 @@ class ActividadASPController extends Controller
      */
     public function create()
     {
-        return view('registroASP');//
+       // $asignaturas = Asignatura::all();
+        $asignaturas = Asignatura::orderBy('nombre_asign')->get();
+        return view('registroASP',['asignaturas'=> $asignaturas]);//
     }
 
     /**
@@ -123,5 +126,7 @@ class ActividadASPController extends Controller
         //        $extension->evidencia = $request->evidencia;
         //        $extension->save();
     }
+
+
 
 }

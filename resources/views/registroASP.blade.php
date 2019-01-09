@@ -15,7 +15,7 @@
         </div>
     @endif
     <body>
-
+    <H1> <center> Registrar Actividad de Aprendizaje + Servicio <center> </H1>
 <div class="container">
     <form autocomplete="off" method="POST" action="{{url('/registroASP')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
@@ -25,12 +25,21 @@
                 <input type="text" class="form-control" name= "nombre" id="inputActividad">
             </div>
         </div>
+
         <div class="form-group row">
-            <label for="inputAsignatura" class="col-sm-2 col-form-label">Asignatura</label>
+            <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Asignatura</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" name= "asignatura" id="inputAsignatura">
+            <select class="form-control" id="asignaturasSelect" name= "asignatura_id">
+                <option value="" disabled selected> Seleccione asignatura</option>
+                @foreach($asignaturas as $asignatura)
+                    <option value="{{$asignatura->id}}">{{$asignatura->nombre_asign}},
+                    </option>
+                @endforeach
+            </select>
             </div>
         </div>
+
+
         <div class="form-group row">
             <label for="inputProfesor" class="col-sm-2 col-form-label">Profesor</label>
             <div class="col-sm-3">
@@ -41,6 +50,7 @@
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Periodo</label>
             <div class="col-sm-3">
                 <select class="form-control" name = "periodo" id="exampleFormControlSelect1">
+                    <option value="" disabled selected> Seleccione año/semestre</option>
                     <option>2018-2</option>
                     <option>2018-1</option>
                     <option>2017-2</option>
@@ -59,7 +69,7 @@
         </div>
 
         <div class="form-group row">
-            <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre Socio Comunitario</label>
+            <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre socio Comunitario</label>
             <div class="col-sm-3">
                 <input type="text" class="form-control" name= "nombre_organizacion" id="inputOrganizacion">
             </div>
@@ -71,8 +81,6 @@
                 <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia">
             </div>
         </div>
-
-
         <div class="form-group row">
             <div class="col-sm-2">
         <span class="border">
