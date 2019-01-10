@@ -12,18 +12,18 @@
     <div class="form-group row">
         <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre de organización</label>
         <div class="col-sm-3">
-            <select type="text" class="form-control" name= "nombre" id="inputOrganizacion">
+            <input type="text" class="form-control" name= "nombre" id="inputOrganizacion">
         </div>
     </div>
     <div class="form-group row">
         <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Tipo de convenio</label>
         <div class="col-sm-3">
-        <input class="form-control" name = "tipo_convenio" id="exampleFormControlSelect1">
+        <select class="form-control" name = "tipo_convenio" id="exampleFormControlSelect1">
             <option>Capstone</option>
             <option>Marco</option>
             <option>Especifico</option>
             <option>Aprendizaje + Servicio</option>
-        </input>
+        </select>
         </div>
     </div>
     <div class="form-group row">
