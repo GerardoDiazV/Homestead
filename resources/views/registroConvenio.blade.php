@@ -12,18 +12,18 @@
     <div class="form-group row">
         <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre de organización</label>
         <div class="col-sm-3">
-            <input type="text" class="form-control" name= "nombre" id="inputOrganizacion">
+            <select type="text" class="form-control" name= "nombre" id="inputOrganizacion">
         </div>
     </div>
     <div class="form-group row">
         <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Tipo de convenio</label>
         <div class="col-sm-3">
-        <select class="form-control" name = "tipo_convenio" id="exampleFormControlSelect1">
+        <input class="form-control" name = "tipo_convenio" id="exampleFormControlSelect1">
             <option>Capstone</option>
             <option>Marco</option>
             <option>Especifico</option>
             <option>Aprendizaje + Servicio</option>
-        </select>
+        </input>
         </div>
     </div>
     <div class="form-group row">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                    <a type="button" class="btn btn-primary" href="{{route('menuRegistros')}}" role="button">Cancelar registro</a>
+                    <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
                 </div>
             </div>
         </div>

@@ -88,7 +88,7 @@ class RegistroController extends Controller
 
     public function menu()
     {
-        return view('registros');
+        return view('menu');
     }
     public function registroConvenio()
     {

@@ -52,7 +52,7 @@ class ConvenioController extends Controller
             'evidencia' => $data['evidencia'],
         ]);
 
-        return view('registros');
+        return view('menu');
 
         //
     }

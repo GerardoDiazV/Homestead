@@ -72,7 +72,7 @@ class ActividadASPController extends Controller
             'organizacion_id' => $organizacionId,
         ]);
 
-        return view('registros');
+        return view('menu');
         //
     }
 

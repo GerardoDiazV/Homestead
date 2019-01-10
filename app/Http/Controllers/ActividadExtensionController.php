@@ -79,7 +79,7 @@ class ActividadExtensionController extends Controller
             ]);
         }
 
-        return view('registros');
+        return view('menu');
         //
     }
 
