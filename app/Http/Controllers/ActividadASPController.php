@@ -17,7 +17,8 @@ class ActividadASPController extends Controller
      */
     public function index()
     {
-        //
+        $indexASP = ActividadASP::orderBy('id')->get();
+        return view('indexASP',['actividad_asp'=>$indexASP]);
     }
 
     /**
@@ -94,7 +95,6 @@ class ActividadASPController extends Controller
      */
     public function edit(ActividadASP $actividadASP)
     {
-        //
     }
 
     /**
