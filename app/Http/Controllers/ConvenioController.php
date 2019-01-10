@@ -40,12 +40,6 @@ class ConvenioController extends Controller
     public function store(Request $request)
     {
         $data = request()->all();
-        $ValidateData = $request->validate([
-            'fecha_inicio'  =>'required',
-            'fecha_termino' =>'required',
-            'tipo_convenio' =>'required'
-
-        ]);
 
 
 
