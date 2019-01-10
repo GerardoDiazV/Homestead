@@ -35,7 +35,7 @@ class ActividadASPOrganizacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
