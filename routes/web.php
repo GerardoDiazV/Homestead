@@ -12,9 +12,18 @@
 */
 Route::resource('menu', 'RegistroController');
 
-Route::get('/',function () {
-    return view('welcome');
+Route::get('/', function () {
+    return redirect()->route('logout');
 });
+
+Route::group(['middleware' => 'disablepreventback'],function(){
+    Auth::routes();
+    Route::get('/', [
+        'as' => 'menu',
+        'uses' => 'RegistroController@inicio'
+    ]);
+});
+
 
 //Acceso de todos los roles (Academico(user),Secretaria(secretaria),Encargado de Vinculacion(encargado), Jefe de Carrera o Director(admin))
 Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' || 'role=admin'])->group(function () {
@@ -35,15 +44,16 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         Route::post('/registroASP', 'ActividadASPController@store');
         Route::get('/indexASP','ActividadASPController@index')->name('indexASP');
 
+        Route::middleware(['auth', 'role:encargado' || 'role:secretaria'])->group(function () {
+            Route::get('/registroTitulacion', ['uses' => 'TitulacionConvenioController@create'])->name('registroTitulacion');
+            Route::post('/registroTitulacion', ['uses' => 'TitulacionConvenioController@store']);
+        });
+
     });
     Route::middleware(['auth', 'role:encargado' || 'role:secretaria' ])->group(function () {
-        //Administracion de Titulacion por convenio (REG-003)
-        Route::get('/registroTitulacion', ['uses' => 'TitulacionConvenioController@create'])->name('registroTitulacion');
-        Route::post('/registroTitulacion', ['uses' => 'TitulacionConvenioController@store']);
-
     });
 });
 
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
 Auth::routes();

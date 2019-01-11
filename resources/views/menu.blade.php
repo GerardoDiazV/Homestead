@@ -38,9 +38,14 @@
             </div>
         </div>
         <div class="container ancho p-5">
+            @if (Auth::user()->hasAnyRole(['encargado', 'secretaria','user']))
             <a class="btn btn-primary btn-block " href="{{route('registroConvenio')}}" role="button"><font size="5">Administrar Convenios de Colaboración</font></a>
             <a class="btn btn-primary btn-block " href="{{route('registroASP')}}" role="button"><font size="5">Administrar  Actividad de Aprendizaje + Servicios</font></a>
             <a class="btn btn-primary btn-block " href="{{route('registroExtension')}}" role="button"><font size="5">Administrar Actividad de Extensión</font></a>
+            @endif
+            @if (Auth::user()->hasAnyRole(['encargado', 'secretaria']))
+                <a class="btn btn-primary btn-block " href="{{route('registroTitulacion')}}" role="button"><font size="5">Administrar Actividad Titulacion de Convenio</font></a>
+            @endif
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

@@ -12,6 +12,7 @@ class RegistroController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $registros = Registro::all();
@@ -101,5 +102,14 @@ class RegistroController extends Controller
     public function registroASP()
     {
         return view('registroASP');
+    }
+    public function inicio(Request $request)
+    {
+        return view('welcome');
+    }
+
+    public function login(Request $request)
+    {
+        return view('menu');
     }
 }
