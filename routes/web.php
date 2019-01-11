@@ -13,17 +13,8 @@
 Route::resource('menu', 'RegistroController');
 
 Route::get('/', function () {
-    return redirect()->route('logout');
+    return view('welcome');
 });
-
-Route::group(['middleware' => 'disablepreventback'],function(){
-    Auth::routes();
-    Route::get('/', [
-        'as' => 'menu',
-        'uses' => 'RegistroController@inicio'
-    ]);
-});
-
 
 //Acceso de todos los roles (Academico(user),Secretaria(secretaria),Encargado de Vinculacion(encargado), Jefe de Carrera o Director(admin))
 Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' || 'role=admin'])->group(function () {
