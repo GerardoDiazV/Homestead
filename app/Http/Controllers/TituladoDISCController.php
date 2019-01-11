@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\RegistroTitulados;
+use App\TituladoDISC;
 use Illuminate\Http\Request;
 
-class RegistroTituladosController extends Controller
+class TituladoDISCController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RegistroTituladosController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\RegistroTitulados  $registroTitulados
+     * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function show(RegistroTitulados $registroTitulados)
+    public function show(TituladoDISC $tituladoDISC)
     {
         //
     }
@@ -52,10 +52,10 @@ class RegistroTituladosController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\RegistroTitulados  $registroTitulados
+     * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function edit(RegistroTitulados $registroTitulados)
+    public function edit(TituladoDISC $tituladoDISC)
     {
         //
     }
@@ -64,10 +64,10 @@ class RegistroTituladosController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\RegistroTitulados  $registroTitulados
+     * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RegistroTitulados $registroTitulados)
+    public function update(Request $request, TituladoDISC $tituladoDISC)
     {
         //
     }
@@ -75,10 +75,10 @@ class RegistroTituladosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\RegistroTitulados  $registroTitulados
+     * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RegistroTitulados $registroTitulados)
+    public function destroy(TituladoDISC $tituladoDISC)
     {
         //
     }
