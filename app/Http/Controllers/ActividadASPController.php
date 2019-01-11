@@ -44,9 +44,9 @@ class ActividadASPController extends Controller
 
         $data = request()->all();
         $request->validate([
-            'nombre' => 'required|alpha',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'asignatura_id' => 'required',
-            'profesor' => 'required',
+            'profesor' => 'required|regex:/^[\pL\s\-]+$/u',
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
             'nombre_organizacion' => 'required|regex:/^[\pL\s\-]+$/u',
@@ -120,7 +120,9 @@ class ActividadASPController extends Controller
      */
     public function destroy($id)
     {
-        $actividadASP= ActividadASP::find($id)->delete();
+        $actividad = ActividadASP::get()->find($id);
+        $actividad->actividadesASPOrganizacion()->detach();
+        $actividad->delete();
         return back();
 
     }

@@ -8,10 +8,10 @@ class ActividadASP extends Model
 {
 
     protected $fillable = [
-        'nombre', 'asignatura', "profesor", "cant_estudiantes", "periodo","socio_comunitario","evidencia"
+        'nombre', 'asignatura', "profesor", "cant_estudiantes", "periodo","evidencia"
     ]; //
     //
-    protected function actividadesASPOrganizacion(){
-        $this->hasMany('App\ActividadASP_Organizacion');
+    public function actividadesASPOrganizacion(){
+        return $this->belongsToMany('App\Organizacion','actividad_a_s_p__organizacions','actividadasp_id','organizacion_id');
     }
 }
