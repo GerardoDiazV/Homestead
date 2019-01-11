@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ActividadASP_Organizacion;
+use App\RegistroTitulados;
 use Illuminate\Http\Request;
-use App\ActividadASP;
-use App\Organizacion;
-use App\Asignatura;
 
-class ActividadASPOrganizacionController extends Controller
+class RegistroTituladosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,16 +35,16 @@ class ActividadASPOrganizacionController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ActividadASP_Organizacion  $actividadAS_Organizacion
+     * @param  \App\RegistroTitulados  $registroTitulados
      * @return \Illuminate\Http\Response
      */
-    public function show(ActividadASP_Organizacion $actividadAS_Organizacion)
+    public function show(RegistroTitulados $registroTitulados)
     {
         //
     }
@@ -55,10 +52,10 @@ class ActividadASPOrganizacionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ActividadASP_Organizacion  $actividadAS_Organizacion
+     * @param  \App\RegistroTitulados  $registroTitulados
      * @return \Illuminate\Http\Response
      */
-    public function edit(ActividadASP_Organizacion $actividadAS_Organizacion)
+    public function edit(RegistroTitulados $registroTitulados)
     {
         //
     }
@@ -67,10 +64,10 @@ class ActividadASPOrganizacionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ActividadASP_Organizacion  $actividadAS_Organizacion
+     * @param  \App\RegistroTitulados  $registroTitulados
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ActividadASP_Organizacion $actividadAS_Organizacion)
+    public function update(Request $request, RegistroTitulados $registroTitulados)
     {
         //
     }
@@ -78,10 +75,10 @@ class ActividadASPOrganizacionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ActividadASP_Organizacion  $actividadAS_Organizacion
+     * @param  \App\RegistroTitulados  $registroTitulados
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ActividadASP_Organizacion $actividadAS_Organizacion)
+    public function destroy(RegistroTitulados $registroTitulados)
     {
         //
     }

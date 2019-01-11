@@ -41,10 +41,11 @@ class ActividadASPController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = request()->all();
         $request->validate([
             'nombre' => 'required|alpha',
-            'asignatura' => 'required',
+            'asignatura_id' => 'required',
             'profesor' => 'required',
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
@@ -57,13 +58,12 @@ class ActividadASPController extends Controller
 
         ActividadASP::create([
             'nombre' => $data['nombre'],
-            'asignatura' => $data['asignatura'],
+            'asignatura' => $data['asignatura_id'],
             'profesor' => $data['profesor'],
             'periodo' => $data['periodo'],
             'cant_estudiantes' => $data['cant_estudiantes'],
             'evidencia' => $file,
         ]);
-
         $socioComunitario = $data['nombre_organizacion'];
         $organizacionId = Organizacion::where('nombre',$socioComunitario)->first()->id;
         $actividadId = ActividadASP::where('nombre',$request->nombre)->first()->id;
@@ -93,8 +93,11 @@ class ActividadASPController extends Controller
      * @param  \App\ActividadASP  $actividadASP
      * @return \Illuminate\Http\Response
      */
-    public function edit(ActividadASP $actividadASP)
+    public function edit($id)
     {
+        $actividadASP= ActividadASP::findOrFail($id);
+        $asignaturas = Asignatura::orderBy('nombre_asign')->get();
+        return view('edicionASP',compact("actividadASP","asignaturas"));
     }
 
     /**
@@ -115,16 +118,11 @@ class ActividadASPController extends Controller
      * @param  \App\ActividadASP  $actividadASP
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ActividadASP $actividadASP)
+    public function destroy($id)
     {
-        //$extension = new ActividadExtension();
-        //        $extension->nombre = $request->nombre;
-        //        $extension->asignatura = $request->asignatura;
-        //        $extension->profesor= $request->profesor;
-        //        $extension->periodo = $request->periodo;
-        //        $extension->cant_estudiantes = $request->cant_estudiantes;
-        //        $extension->evidencia = $request->evidencia;
-        //        $extension->save();
+        $actividadASP= ActividadASP::find($id)->delete();
+        return back();
+
     }
 
 

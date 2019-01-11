@@ -20,6 +20,7 @@ class CreateActividadASPsTable extends Migration
             $table->string('profesor');
             $table->string('periodo');
             $table->unsignedInteger(('cant_estudiantes'));
+            $table->string('socio_comunitario');
             $table->string('evidencia');
             $table->timestamps();
         });//
