@@ -109,10 +109,6 @@
         </div>
 
 
-
-
-
-
         <div class="form-group row">
             <div class="col-sm-2">
         <span class="border">
@@ -167,10 +163,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
 
         <script>
 

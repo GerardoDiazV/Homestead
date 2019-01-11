@@ -43,6 +43,9 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         Route::get('/registroASP', 'ActividadASPController@create')->name('registroASP');
         Route::post('/registroASP', 'ActividadASPController@store');
         Route::get('/indexASP','ActividadASPController@index')->name('indexASP');
+        Route::resource('actividad_asp','ActividadASPController');
+
+        Route::get('/actividad_asp/{id}/edit', 'ActividadASPController@edit')->name('edicionASP');
 
         Route::middleware(['auth', 'role:encargado' || 'role:secretaria'])->group(function () {
             Route::get('/registroTitulacion', ['uses' => 'TitulacionConvenioController@create'])->name('registroTitulacion');
