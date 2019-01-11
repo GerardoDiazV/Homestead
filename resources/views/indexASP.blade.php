@@ -2,13 +2,6 @@
 @section('title')Administrar Actividades Aprendizaje + Servicio
 @endsection
 
-<style>
-    .column{
-        widh: 30%;
-        float:left;
-    }
-</style>
-
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -21,60 +14,21 @@
     @endif
     <body>
 
-    <H1> <center> Administrar Actividades de Aprendizaje + Servicio <center></H1>
-    <div class="container ancho p-1">
-    <a class="btn btn-primary btn-block " href="{{route('registroASP')}}" role="button"><font size="6">Registrar nueva actividad</font></a>
-    </div>
-    <table class="table table-bordered" id="MyTable">
-        <thead>
-        <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">Nombre</th>
-            <th class="text-center">Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
+    <H1> <center> Administrar de Actividades de Aprendizaje + Servicio <center></H1>
 
     @if($actividad_asp)
         <ul>
-            <tr>
+
             @foreach($actividad_asp as $item)
-
-                    <td class="text-center">{{ $item->id }}</td>
-                    <td class="text-left">{{ $item->nombre }}</td>
-
-                    <td class="text-center">
-                    <div class = "row pl-5 ">
-
-                        <div class="column">
-                            <a href="{{route('actividad_asp.edit',$item->id)}}" class="btn btn-info btn-xs">
-                                Editar</a>
-                        </div>
-
-
-                        <div class="column">
-                            <form action="{{route('actividad_asp.destroy',$item->id)}}" method="POST">
-                                {{csrf_field()}}
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button class="btn btn-danger">Eliminar
-                                </button>
-                            </form></div>
-                    </div>
-                    </td>
-
-            </tr>
-
+                <li> {{ $item->id}} - {{ $item->nombre}} </li>
             @endforeach
+
         </ul>
     @else
         <p> No hay Actividades registradas </p>
     @endif
 
-    </table>
 
-    <div class="container ancho p-1">
-        <a class="btn btn-primary btn-block " href="{{route('menu')}}" role="button"><font size="6">Volver</font></a>
-    </div>
 
     </body>
 

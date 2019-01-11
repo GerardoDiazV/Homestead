@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\ActividadASP_Organizacion;
 use Illuminate\Http\Request;
-use App\ActividadASP;
-use App\Organizacion;
-use App\Asignatura;
 
 class ActividadASPOrganizacionController extends Controller
 {
@@ -38,7 +35,7 @@ class ActividadASPOrganizacionController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**

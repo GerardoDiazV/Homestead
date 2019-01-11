@@ -9,7 +9,6 @@ $factory->define(App\ActividadASP::class, function (Faker $faker) {
         'profesor'=>$faker->name,
         'periodo' => $faker->sentence(2),
         'cant_estudiantes' => rand(1,50),
-        'socio_comunitario' => $faker->sentence(3),
         'evidencia' => $faker->imageUrl(),
         //
     ];
