@@ -56,8 +56,26 @@
                             <form action="{{route('actividad_asp.destroy',$item->id)}}" method="POST">
                                 {{csrf_field()}}
                                 <input type="hidden" name="_method" value="DELETE">
-                                <button class="btn btn-danger">Eliminar
-                                </button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmSubmitModal" >Eliminar</button>
+                                <div class="modal fade" id="confirmSubmitModal" tabindex="-1" role="dialog" aria-labelledby="confirmSubmitModal" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmSubmitModal">Confirmar Eliminación</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Esta seguro que desea elminar la actividad?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+                                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form></div>
                     </div>
                     </td>
