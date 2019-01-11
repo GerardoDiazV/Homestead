@@ -35,7 +35,6 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         Route::post('/registroASP', 'ActividadASPController@store');
         Route::get('/indexASP','ActividadASPController@index')->name('indexASP');
         Route::resource('actividad_asp','ActividadASPController');
-
         Route::get('/actividad_asp/{id}/edit', 'ActividadASPController@edit')->name('edicionASP');
 
         Route::middleware(['auth', 'role:encargado' || 'role:secretaria'])->group(function () {
@@ -43,8 +42,6 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
             Route::post('/registroTitulacion', ['uses' => 'TitulacionConvenioController@store']);
         });
 
-    });
-    Route::middleware(['auth', 'role:encargado' || 'role:secretaria' ])->group(function () {
     });
 });
 
