@@ -14,7 +14,18 @@
             </ul>
         </div>
     @endif
-<body>
+
+
+<body><style>
+    table {
+        margin-top: -7px;
+        margin-left: 2px;
+    }
+    .table > thead > tr:first-child > td,
+    .table > tbody > tr:first-child > td {
+        border: none;
+    }</style>
+<H1> <center> Registrar Actividad de Extension </center></H1>
 <div class="container">
     <form autocomplete="off" method="POST" action="{{url('/registroExtension')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
@@ -30,63 +41,12 @@
                 <input type="text" class="form-control" name= "localizacion" id="inputLocalizacion" value ="{{ old('localizacion') }}">
             </div>
         </div>
-        <table id="myTable" class=" table order-list">
-            <thead>
-            <tr>
-                <td>Orador/es</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="col-sm-3">
-                    <input type="text" name="oradores[]" class="form-control" />
-                </td>
-                <td class="col-sm-2"><a class="deleteRow"></a>
 
-                </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="5" style="text-align: left;">
-                    <input type="button" class="btn btn-lg btn-block " id="addrow" value="Añadir Fila" />
-                </td>
-            </tr>
-            <tr>
-            </tr>
-            </tfoot>
-        </table>
-        <table id="myTable2" class=" table table-sm order-list">
-            <thead>
-            <tr>
-                <td>Organizador/es</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="col-sm-3">
-                    <input type="text" name="organizadores[]" class="form-control" />
-                </td>
-                <td class="col-sm-2"><a class="deleteRow"></a>
-
-                </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="5" style="text-align: left;">
-                    <input type="button" class="btn btn-lg btn-block " id="addrow2" value="Añadir Fila" />
-                </td>
-            </tr>
-            <tr>
-            </tr>
-            </tfoot>
-        </table>
 
         <div class="form-group row">
             <label for="inputFecha" class="col-sm-2 col-form-label">Fecha</label>
             <div class="col-sm-3">
-                <input id="datepicker" onkeydown="return false" class="date" name = "fecha" width="276" value ="{{ old('fecha') }}"/>
+                <input id="datepicker" onkeydown="return false" class="date" name = "fecha" width="292" value ="{{ old('fecha') }}"/>
             </div>
         </div>
 
@@ -101,17 +61,24 @@
 
 
         <div class="form-group row">
-            <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia</label>
+            <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia de lista de asistentes</label>
             <div class="col-sm-3">
                 <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia">
             </div>
         </div>
 
+        <div class="form-group row">
+            <label for="inputEvidencia" class="col-sm-2 col-form-label">(Opcional) Fotografias</label>
+            <div class="col-sm-3">
+                <input type="file" class="form-control file" name="inputFotos[]" id="inputFotos" multiple>
+            </div>
+        </div>
 
 
 
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Convenio asociado</label>
+        <div class="form-group row">
+            <label for="exampleFormControlSelect1" class = "col-sm-2 col-form-label">Convenio asociado</label>
+            <div class = "col-sm-3">
             <select class="form-control" id="convenioSelect" name= "convenio_id">
                 <option value="" disabled selected>(Opcional) Seleccione convenio relacionado</option>
                @foreach($convenios as $convenio)
@@ -121,6 +88,55 @@
                    </option>
                    @endforeach
             </select>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <table id="myTable" class=" table order-list " style="width: 40.0%">
+                <thead>
+                <tr>
+                    <td class = "col-sm-12">Orador/es</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" name="oradores[]" class="form-control col-sm-10" />
+                    </td>
+                    <td colspan="5" style="text-align: left;">
+                        <input type="button" class="btn btn-md" id="addrow" value="Añadir otra persona" />
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="form-group row">
+            <table id="myTable2" class=" table order-list " style="width: 40.0%">
+                <thead>
+                <tr>
+                    <td class = "col-sm-12">Organizador/es</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" name="organizadores[]" class="form-control col-sm-10" />
+                    </td>
+                    <td colspan="5" style="text-align: left;">
+                        <input type="button" class="btn btn-md" id="addrow2" value="Añadir otra persona" />
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                </tr>
+                </tfoot>
+            </table>
         </div>
 
         <div class="form-group row">
@@ -201,9 +217,8 @@
                 $("#addrow").on("click", function () {
                     var newRow = $("<tr>");
                     var cols = "";
-
-                    cols += '<td><input type="text" class="form-control" name="oradores[]"/></td>';
-                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar Fila"></td>';
+                    cols += '<td><input type="text" class="form-control col-sm-10" name="oradores[]"/></td>';
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
                     newRow.append(cols);
                     $("#myTable.order-list").append(newRow);
                     counter++;
@@ -212,8 +227,8 @@
                     var newRow = $("<tr>");
                     var cols = "";
 
-                    cols += '<td><input type="text" class="form-control" name="organizadores[]"/></td>';
-                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar Fila"></td>';
+                    cols += '<td><input type="text" class="form-control col-sm-10" name="organizadores[]"/></td>';
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
                     newRow.append(cols);
                     $("#myTable2.order-list").append(newRow);
                     counter++;

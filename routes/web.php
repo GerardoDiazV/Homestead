@@ -39,6 +39,12 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         Route::get('/actividad_asp/{id}/edit', 'ActividadASPController@edit')->name('edicionASP');
 
     });
+    Route::middleware(['auth', 'role:encargado' || 'role:secretaria' ])->group(function () {
+        //Administracion de Titulacion por convenio (REG-003)
+        Route::get('/registroTitulacion', ['uses' => 'TitulacionConvenioController@create'])->name('registroTitulacion');
+        Route::post('/registroTitulacion', ['uses' => 'TitulacionConvenioController@store']);
+
+    });
 });
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
