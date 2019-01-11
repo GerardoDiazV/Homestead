@@ -5,16 +5,6 @@
 
 @section('content')
 <title>Registro de convenios</title>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <p><strong>ERROR:</strong> Por favor corregir los siguientes errores</p>
-            <ul>
-                @foreach($errors->all() as $error)
-            <li>{{$error}}</li>
-                @endforeach
-        </ul>
-    </div>
-@endif
 <body>
 <div class="container">
 <form autocomplete="off" method="POST" action="{{url('/registroConvenio')}}">

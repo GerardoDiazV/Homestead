@@ -15,7 +15,6 @@ class CreateActividadExtensionOrganizadorsTable extends Migration
     {
         Schema::create('actividad_extension_organizadors', function (Blueprint $table) {
             $table->unsignedInteger('actividad_extension_id');
-            $table->foreign('actividad_extension_id')->references('id')->on('actividad_extensions');
             $table->string('organizador');
             $table->timestamps();
         });

@@ -41,15 +41,6 @@ class ConvenioController extends Controller
     {
         $data = request()->all();
 
-        $this->validate(request(),[
-            'fecha_inicio'    => 'required',
-            'fecha_termino'   => 'required',
-            'organizacion_id' => 'required',
-            'evidencia'       => 'required'
-        ]);
-
-
-
 
 
         $file = $request->file('inputEvidencia')->store('Evidencias');

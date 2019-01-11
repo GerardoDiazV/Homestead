@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\ActividadExtension;
 use App\ActividadExtensionOrador;
 use App\ActividadExtensionOrganizador;
-use App\ActividadExtensionFotografia;
 use App\Convenio;
 use Illuminate\Http\Request;
 
@@ -43,23 +42,19 @@ class ActividadExtensionController extends Controller
 
         $data = request()->all();
         $request->validate([
-            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
+            'nombre' => 'required|alpha',
             'localizacion' => 'required',
             'fecha' => 'required',
             'cant_asistentes' => 'required',
+            'inputEvidencia' => 'required|file:pdf',
             'convenio_id' => 'nullable',
-            'oradores.*' => 'bail|required|regex:/^[\pL\s\-]+$/u',
-            'organizadores.*' => 'bail|required|regex:/^[\pL\s\-]+$/u',
-            'inputEvidencia' => 'required|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
-            'inputFotos.*' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048',
-        ]);
-        $idActividad = (ActividadExtension::orderby('id','DESC')->first()->id) + 1;
-        $filename = 'evidencia-extension-' . $idActividad  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
-        $file = $request->file('inputEvidencia')->storeAs('Registros Extension/Evidencias',$filename);
+            'oradores.*' => 'bail|required|alpha',
+            'organizadores.*' => 'bail|required|alpha'
 
+        ]);
+        $file = $request->file('inputEvidencia')->store('Evidencias');
         $oradores = $data['oradores'];
         $organizadores = $data['organizadores'];
-        $fotos = $request->file('inputFotos');
 
         ActividadExtension::create([
         'nombre' => $data['nombre'],
@@ -67,7 +62,7 @@ class ActividadExtensionController extends Controller
         'fecha' => $data['fecha'],
         'cant_asistentes' => $data['cant_asistentes'],
         'evidencia' => $file,
-        'convenio_id' => $data['convenio_id']
+        'convenio_id' => $data['convenio_id'],
         ]);
 
         $idActividad = ActividadExtension::latest()->first()->id;
@@ -77,7 +72,6 @@ class ActividadExtensionController extends Controller
                 'orador' => $orador,
             ]);
         }
-
         foreach ($organizadores as $organizador){
             ActividadExtensionOrganizador::create([
                 'actividad_extension_id' => $idActividad,
@@ -85,16 +79,6 @@ class ActividadExtensionController extends Controller
             ]);
         }
 
-        $contFotos = 0;
-        foreach ($fotos as $foto){
-            $contFotos ++;
-            $filename = 'fotografia-extension-' . $idActividad . '-' . $contFotos  . '.' . $foto->getClientOriginalExtension();
-            $path = $foto->storeAs('Registros Extension/Fotografias',$filename);
-            ActividadExtensionFotografia::create([
-                'actividad_extension_id' => $idActividad,
-                'fotografia' => $path,
-            ]);
-        }
         return view('menu');
         //
     }

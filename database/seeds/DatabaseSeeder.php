@@ -11,23 +11,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // La creación de datos de roles debe ejecutarse primero
+        $this->call(RoleTableSeeder::class);
+
+        // Los usuarios necesitarán los roles previamente generados
+        $this->call(UserTableSeeder::class);
+
+        $this->call(ActividadASPSeeder::class);
+        $this->call(ActividadExtensionSeeder::class);
+        $this->call(OrganizacionSeeder::class);
+        $this->call(ActividadASPOrganizacionSeeder::class);
+        $this->call(ConvenioSeeder::class);
 
         $this->truncateTables([
             'convenios',
             'organizacions',
             'actividad_extensions',
-            'actividad_extension_fotografias',
-            'actividad_extension_oradors',
-            'actividad_extension_organizadors',
             'actividad_a_s_ps',
             'actividad_a_s_p__organizacions',
             'users',
             'roles',
-            'role_user',
-            'titulacion_convenios',
-            'titulacion_convenio_estudiantes',
-            'titulacion_convenio_profesors'
-
+            'role_user'
         ]);
 
         // La creación de datos de roles debe ejecutarse primero
@@ -41,7 +45,6 @@ class DatabaseSeeder extends Seeder
         ActividadASPOrganizacionSeeder::class,
         ConvenioSeeder::class,
         AsignaturaSeeder::class,
-            TitulacionConvenioSeeder::class
         ]);
     }
 

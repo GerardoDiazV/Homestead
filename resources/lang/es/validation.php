@@ -153,16 +153,6 @@ return [
         'organizadores.*' => 'Organizador/es',
         'periodo'=> 'Periodo',
         'socioComunatario'=>'Socio Comunitario',
-        'fechaInicio'=> 'Fecha inicio',
-        'fechaTermino'=> 'Fecha termino',
-        'inputEvidencia' => 'Evidencia',
-        'convenio_id'=> 'Convenio asociado',
-        'profesores.*'=> 'Nombre Profesor',
-        'nombresEstudiantes.*'=> 'Nombre estudiante',
-        'rutsEstudiantes.*'=> 'Rut estudiante',
-        'carrerasEstudiantes.*'=> 'Carrera estudiante',
-
-
 
     ],
 
