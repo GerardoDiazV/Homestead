@@ -15,7 +15,8 @@ class CreateActividadExtensionOradorsTable extends Migration
     {
         Schema::create('actividad_extension_oradors', function (Blueprint $table) {
             $table->unsignedInteger('actividad_extension_id');
-            $table->foreign('actividad_extension_id')->references('id')->on('actividad_extensions');
+            $table->foreign('actividad_extension_id')->references('id')->on('actividad_extensions')
+                ->onDelete('cascade');
             $table->string('orador');
             $table->timestamps();
 

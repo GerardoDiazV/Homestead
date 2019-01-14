@@ -14,5 +14,18 @@ class ActividadExtension extends Model
     public function convenio(){
         return $this->belongsTo('App\Convenio');
     }
+
+    public function oradores(){
+        return $this->hasMany('App\ActividadExtensionOrador');
+    }
+
+    public function organizadores(){
+        return $this->hasMany('App\ActividadExtensionOrganizador');
+    }
+    
+    public function fotografias(){
+        return $this->hasMany('App\ActividadExtensionFotografia');
+    }
+
     ////
 }

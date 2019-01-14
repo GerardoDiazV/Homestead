@@ -27,7 +27,7 @@
     }</style>
 <H1> <center> Registrar Actividad de Extension </center></H1>
 <div class="container">
-    <form autocomplete="off" method="POST" action="{{url('/registroExtension')}}" enctype="multipart/form-data">
+    <form autocomplete="off" method="POST" action="{{route('extension.store')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group row">
             <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                        <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
+                        <a type="button" class="btn btn-primary" href="{{route('extension.index')}}" role="button">Cancelar registro</a>
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        ¿Esta seguro que desea confirmar el registro??
+                        ¿Esta seguro que desea confirmar el registro?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>

@@ -36,10 +36,11 @@ class DatabaseSeeder extends Seeder
         RoleTableSeeder::class,
         UserTableSeeder::class,
         ActividadASPSeeder::class,
-        ActividadExtensionSeeder::class,
+
         OrganizacionSeeder::class,
+            ConvenioSeeder::class,
+            ActividadExtensionSeeder::class,
         ActividadASPOrganizacionSeeder::class,
-        ConvenioSeeder::class,
         AsignaturaSeeder::class,
             TitulacionConvenioSeeder::class
         ]);

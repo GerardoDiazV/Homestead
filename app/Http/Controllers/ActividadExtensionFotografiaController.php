@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActividadExtension;
 use App\ActividadExtensionFotografia;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,7 @@ class ActividadExtensionFotografiaController extends Controller
      */
     public function index()
     {
+
         //
     }
 

@@ -10,6 +10,8 @@ class ActividadExtensionOrador extends Model
         'actividad_extension_id', 'orador'
     ]; //
     //
-
+    public function actividad(){
+        return $this->belongsTo('App\ActividadExtension');
+    }
 
 }

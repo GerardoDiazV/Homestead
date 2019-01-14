@@ -8,6 +8,7 @@ use App\ActividadExtensionOrganizador;
 use App\ActividadExtensionFotografia;
 use App\Convenio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ActividadExtensionController extends Controller
 {
@@ -18,6 +19,8 @@ class ActividadExtensionController extends Controller
      */
     public function index()
     {
+        $indexASP = ActividadExtension::orderBy('id')->get();
+        return view('indexExtension',['actividad_extension'=>$indexASP]);
         //
     }
 
@@ -60,14 +63,15 @@ class ActividadExtensionController extends Controller
         $oradores = $data['oradores'];
         $organizadores = $data['organizadores'];
         $fotos = $request->file('inputFotos');
-
+        $convenioid = null;
+        if(Arr::exists($data, 'convenio_id')) $convenioid = $data['convenio_id'];
         ActividadExtension::create([
         'nombre' => $data['nombre'],
         'localizacion' => $data['localizacion'],
         'fecha' => $data['fecha'],
         'cant_asistentes' => $data['cant_asistentes'],
         'evidencia' => $file,
-        'convenio_id' => $data['convenio_id']
+        'convenio_id' => $convenioid
         ]);
 
         $idActividad = ActividadExtension::latest()->first()->id;
@@ -118,9 +122,16 @@ class ActividadExtensionController extends Controller
      * @param  \App\ActividadExtension  $actividadExtension
      * @return \Illuminate\Http\Response
      */
-    public function edit(ActividadExtension $actividadExtension)
+    public function edit($id)
     {
-        return view('edicionExtension');
+        $actividadExtension= ActividadExtension::findOrFail($id);
+        $fotografias = $actividadExtension->fotografias()->get();
+        $oradores = $actividadExtension->oradores()->get();
+        $organizadores = $actividadExtension->organizadores()->get();
+        $convenios = Convenio::all();
+
+        return view('edicionExtension',compact("actividadExtension","convenios",'fotografias',
+            'oradores','organizadores'));
     }
 
     /**
@@ -141,8 +152,11 @@ class ActividadExtensionController extends Controller
      * @param  \App\ActividadExtension  $actividadExtension
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ActividadExtension $actividadExtension)
+    public function destroy($id)
     {
+        $actividad = ActividadExtension::get()->find($id);
+        $actividad->delete();
+        return back();
         //
     }
 

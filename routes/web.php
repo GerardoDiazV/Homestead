@@ -26,10 +26,7 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         Route::post('/registroConvenio', ['uses' => 'ConvenioController@store']);
 
         //Administracion de Actividad de Extension
-        Route::get('/registroExtension', 'ActividadExtensionController@create')->name('registroExtension');
-        Route::post('/registroExtension', 'ActividadExtensionController@store');
-        Route::get('/registroExtension/{id}/editar', 'ActividadExtensionController@edit');
-
+        Route::resource('actividad/extension','ActividadExtensionController');
         //Administracion de Actividades de Aprendizaje + Servicios (A+S)
         Route::get('/registroASP', 'ActividadASPController@create')->name('registroASP');
         Route::post('/registroASP', 'ActividadASPController@store');
