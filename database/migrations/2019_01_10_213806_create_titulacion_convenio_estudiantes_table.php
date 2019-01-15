@@ -15,7 +15,8 @@ class CreateTitulacionConvenioEstudiantesTable extends Migration
     {
         Schema::create('titulacion_convenio_estudiantes', function (Blueprint $table) {
             $table->unsignedInteger('titulacion_convenio_id');
-            $table->foreign('titulacion_convenio_id')->references('id')->on('titulacion_convenios');
+            $table->foreign('titulacion_convenio_id')->references('id')->on('titulacion_convenios')
+                ->onDelete('cascade');
             $table->string('nombre');
             $table->string('rut');
             $table->string('carrera');

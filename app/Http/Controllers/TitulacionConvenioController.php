@@ -17,7 +17,8 @@ class TitulacionConvenioController extends Controller
      */
     public function index()
     {
-        //
+        $indexTitulacion = TitulacionConvenio::orderBy('id')->get();
+        return view('indexTitulacion',['actividad_titulacion'=>$indexTitulacion]);//
     }
 
     /**
@@ -52,9 +53,10 @@ class TitulacionConvenioController extends Controller
             'rutsEstudiantes.*' => 'bail|required',
             'carrerasEstudiantes.*' => 'bail|required|regex:/^[\pL\s\-]+$/u',
         ]);
-        $idActividad = (TitulacionConvenio::orderby('id','DESC')->first()->id) + 1;
+        $statement = \DB::select("SHOW TABLE STATUS LIKE 'titulacion_convenios'");
+        $idActividad = $statement[0]->Auto_increment;
         $filename = 'evidencia-titulacion-' . $idActividad  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
-        $file = $request->file('inputEvidencia')->storeAs('Registros Titulacion/Evidencias',$filename);
+        $file = $request->file('inputEvidencia')->storeAs('Titulacion/'.$idActividad.'/Evidencia',$filename);
 
         $profesores = $data['profesores'];
         $nombres = $data['nombresEstudiantes'];
@@ -107,9 +109,16 @@ class TitulacionConvenioController extends Controller
      * @param  \App\TitulacionConvenio  $titulacionConvenio
      * @return \Illuminate\Http\Response
      */
-    public function edit(TitulacionConvenio $titulacionConvenio)
+    public function edit($id)
     {
-        //
+        $actividadTitulacion= TitulacionConvenio::findOrFail($id);
+        $profesores = $actividadTitulacion->profesores()->get();
+        $estudiantes = $actividadTitulacion->estudiantes()->get();
+        $contEstudiantes = $estudiantes->count();
+        $contProfesores = $profesores->count();
+        $convenios = Convenio::all();
+        return view('edicionTitulacion',compact("actividadTitulacion", 'profesores',
+            'estudiantes', 'convenios','contEstudiantes','contProfesores'));//
     }
 
     /**
@@ -130,8 +139,10 @@ class TitulacionConvenioController extends Controller
      * @param  \App\TitulacionConvenio  $titulacionConvenio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TitulacionConvenio $titulacionConvenio)
+    public function destroy($id)
     {
-        //
+        $actividad = TitulacionConvenio::get()->find($id);
+        $actividad->delete();
+        return back();
     }
 }

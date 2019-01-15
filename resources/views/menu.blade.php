@@ -44,7 +44,7 @@
             <a class="btn btn-primary btn-block " href="{{route('extension.index')}}" role="button"><font size="5">Administrar Actividad de Extensión</font></a>
             @endif
             @if (Auth::user()->hasAnyRole(['encargado', 'secretaria']))
-                <a class="btn btn-primary btn-block " href="{{route('registroTitulacion')}}" role="button"><font size="5">Administrar Actividad Titulacion de Convenio</font></a>
+                <a class="btn btn-primary btn-block " href="{{route('titulacion.index')}}" role="button"><font size="5">Administrar actividades de titulacion por convenio</font></a>
             @endif
         </div>
 

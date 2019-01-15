@@ -27,26 +27,26 @@
         }</style>
     <H1> <center> Registrar Actividad de Titulacion por Convenio </center> </H1>
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('titulacion.store')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{url('/registroTitulacion')}}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group row">
                 <label for="inputActividad" class="col-sm-2 col-form-label">Titulo de actividad</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "nombre" id="inputActividad" value ="{{ old('nombre') }}">
+                    <input type="text" class="form-control" name= "nombre" id="inputActividad" value ="{{ $actividadTitulacion['nombre'] }}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputFecha" class="col-sm-2 col-form-label">Fecha Inicio</label>
                 <div class="col-sm-3">
-                    <input id="datepicker" onkeydown="return false" class="date" name = "fechaInicio" width="292" value ="{{ old('fechaInicio') }}"/>
+                    <input id="datepicker" onkeydown="return false" class="date" name = "fechaInicio" width="292" value ="{{ $actividadTitulacion['fecha_inicio'] }}"/>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputFecha2" class="col-sm-2 col-form-label">Fecha Termino</label>
                 <div class="col-sm-3">
-                    <input id="datepicker2" onkeydown="return false" class="date" name = "fechaTermino" width="292" value ="{{ old('fechaTermino') }}"/>
+                    <input id="datepicker2" onkeydown="return false" class="date" name = "fechaTermino" width="292" value ="{{ $actividadTitulacion['fecha_termino'] }}"/>
                 </div>
             </div>
 
@@ -63,10 +63,16 @@
                 <select class="form-control" id="convenioSelect" name= "convenio_id">
                     <option value="" disabled selected>Seleccione convenio relacionado</option>
                     @foreach($convenios as $convenio)
-                        <option value="{{$convenio->id}}">Fecha inicio: {{$convenio->fecha_inicio}},
-                            Empresa Convenio: {{$convenio->organizacion()->first()->nombre}},
-                            Tipo Convenio: {{$convenio->tipo_convenio}}
-                        </option>
+                        @if($convenio->id == $actividadTitulacion['convenio_id'])
+                            <option value="{{$convenio->id}}" selected>Fecha inicio: {{$convenio->fecha_inicio}},
+                                Empresa Convenio: {{$convenio->organizacion()->first()->nombre}},
+                                Tipo Convenio: {{$convenio->tipo_convenio}}
+                        @else
+                            <option value="{{$convenio->id}}">Fecha inicio: {{$convenio->fecha_inicio}},
+                                Empresa Convenio: {{$convenio->organizacion()->first()->nombre}},
+                                Tipo Convenio: {{$convenio->tipo_convenio}}
+                            </option>
+                        @endif
                     @endforeach
                 </select>
                 </div>
@@ -78,15 +84,30 @@
             <div class="form-group row">
                 <label for="profesores" class="col-sm-2 col-form-label">Nombre</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "profesores[]" id="profesores">
+                    <input type="text" class="form-control" name= "profesores[]" id="profesores" value = {{$profesores->first()['nombre_profesor']}}>
                 </div>
             </div>
-            <div class = "dinamicInputSpace" id="tableDinamicInput1"></div>
+            <div class = "dinamicInputSpace" id="tableDinamicInput1">
+                @foreach($profesores as $key => $profesor)
+                    @if ($key > 0)
+                        <div class = "DinamicInput pt-4" >
+                            <div class="form-group row">
+                                <label for="profesores" class="col-sm-2 col-form-label">Nombre</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name= "profesores[]" id="profesores" value = "{{$profesor['nombre_profesor']}}">
+                                </div>
+                                <input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar">
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
             <div class="form-group row col-sm-3 pt-2">
                 <button id = "addrow" class="col-sm-8 col-form label btn btn-default btn-add" type="button">
                     Añadir otra persona
                 </button>
             </div>
+
 
 
 
@@ -96,18 +117,40 @@
             <div class="form-group row">
                 <label for="nombreEstudiante" class="col-sm-1 col-form-label">Nombre</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name= "nombresEstudiantes[]" id="nombreEstudiante">
+                    <input type="text" class="form-control" name= "nombresEstudiantes[]" id="nombreEstudiante" value = {{$estudiantes->first()['nombre']}}>
                 </div>
                 <label for="rutEstudiante" class="col-sm-1 col-form-label">Rut</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name= "rutsEstudiantes[]" id="rutEstudiante">
+                    <input type="text" class="form-control" name= "rutsEstudiantes[]" id="rutEstudiante" value = {{$estudiantes->first()['rut']}}>
                 </div>
                 <label for="carreraEstudiante" class="col-sm-1 col-form-label">Carrera</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante">
+                    <input type="text" class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante" value = {{$estudiantes->first()['carrera']}}>
                 </div>
             </div>
-            <div class = "dinamicInputSpace" id="tableDinamicInput2"></div>
+            <div class = "dinamicInputSpace" id="tableDinamicInput2">
+                @foreach($estudiantes as $key => $estudiante)
+                    @if ($key > 0)
+                        <div class = "DinamicInput pt-4" >
+                            <div class="form-group row">
+                                    <label for="nombreEstudiante" class="col-sm-1 col-form-label">Nombre</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name= "nombresEstudiantes[]" id="nombreEstudiante" value="{{$estudiante->nombre}}">
+                                    </div>
+                                    <label for="rutEstudiante" class="col-sm-1 col-form-label">Rut</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name= "rutsEstudiantes[]" id="rutEstudiante" value="{{$estudiante->rut}}">
+                                    </div>
+                                    <label for="carreraEstudiante" class="col-sm-1 col-form-label">Carrera</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante" value="{{$estudiante->carrera}}">
+                                    </div>
+                            <input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar">
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
             <div class="form-group row col-sm-3 pt-2 pb-5">
             <button id = "addrow2" class="col-sm-8 col-form label btn btn-default btn-add" type="button">
                 Añadir otra persona
@@ -149,7 +192,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                            <a type="button" class="btn btn-primary" href="{{route('titulacion.index')}}" role="button">Cancelar registro</a>
+                            <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
                         </div>
                     </div>
                 </div>
@@ -183,13 +226,21 @@
             <script>
 
 
+
                 // Multiple Rows:
 
                 $(document).ready(function () {
-                    var counter1 = 0;
-                    var counter2 = 0;
+                    var counter1 = JSON.parse("{{ json_encode($contProfesores) }}");
+                    var counter2 = JSON.parse("{{ json_encode($contEstudiantes) }}") - 1;
                     var hidden1 = false;
                     var hidden2 = false;
+                    if(counter1 == 2){
+                        document.getElementById('addrow').style.visibility = 'hidden';
+                    }
+                    if(counter2 == 3){
+                        document.getElementById('addrow2').style.visibility = 'hidden';
+                    }
+
 
                     $('#datepicker').datepicker({
                         forceparse: true,
@@ -206,11 +257,7 @@
                     });
 
 
-
-
                     $("#addrow").on("click", function () {
-
-                        if(counter1<1){
                         var newRow = $('<div class = "DinamicInput pt-4" >');
                         var cols = "";
                         cols += '             <div class="form-group row">\n' +
@@ -222,10 +269,7 @@
                             '            </div>'
                         newRow.append(cols);
                         $("#tableDinamicInput1").append(newRow);
-                        counter1++;
                         document.getElementById('addrow').style.visibility = 'hidden';
-
-                        }else{};
                     });
                     $("#addrow2").on("click", function () {
                         if(counter2 < 3) {
@@ -257,10 +301,11 @@
                     });
 
 
+
+
                     $("#tableDinamicInput1").on("click", ".ibtnDel", function (event) {
                         $(this).closest(".DinamicInput").remove();
                         document.getElementById('addrow').style.visibility = 'visible';
-                        counter1 -= 1
                     });
 
                     $("#tableDinamicInput2").on("click", ".ibtnDel", function (event) {

@@ -6,6 +6,7 @@ use App\ActividadExtension;
 use App\ActividadExtensionOrador;
 use App\ActividadExtensionOrganizador;
 use App\ActividadExtensionFotografia;
+use App\Http\Controllers;
 use App\Convenio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -56,9 +57,10 @@ class ActividadExtensionController extends Controller
             'inputEvidencia' => 'required|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
             'inputFotos.*' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
-        $idActividad = (ActividadExtension::orderby('id','DESC')->first()->id) + 1;
+        $statement = \DB::select("SHOW TABLE STATUS LIKE 'actividad_extensions'");
+        $idActividad = $statement[0]->Auto_increment;
         $filename = 'evidencia-extension-' . $idActividad  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
-        $file = $request->file('inputEvidencia')->storeAs('Registros Extension/Evidencias',$filename);
+        $file = $request->file('inputEvidencia')->storeAs('Registros Extension/'.$idActividad.'/Evidencia',$filename);
 
         $oradores = $data['oradores'];
         $organizadores = $data['organizadores'];
@@ -93,7 +95,7 @@ class ActividadExtensionController extends Controller
         foreach ($fotos as $foto){
             $contFotos ++;
             $filename = 'fotografia-extension-' . $idActividad . '-' . $contFotos  . '.' . $foto->getClientOriginalExtension();
-            $path = $foto->storeAs('Registros Extension/Fotografias',$filename);
+            $path = $foto->storeAs('Registros Extension/'.$idActividad.'/Fotografias',$filename);
             ActividadExtensionFotografia::create([
                 'actividad_extension_id' => $idActividad,
                 'fotografia' => $path,
@@ -125,13 +127,14 @@ class ActividadExtensionController extends Controller
     public function edit($id)
     {
         $actividadExtension= ActividadExtension::findOrFail($id);
+        $evidencia = \Storage::disk('public')->get('evidencia-extension-13.jpg');
         $fotografias = $actividadExtension->fotografias()->get();
         $oradores = $actividadExtension->oradores()->get();
         $organizadores = $actividadExtension->organizadores()->get();
         $convenios = Convenio::all();
 
         return view('edicionExtension',compact("actividadExtension","convenios",'fotografias',
-            'oradores','organizadores'));
+            'oradores','organizadores','evidencia'));
     }
 
     /**
