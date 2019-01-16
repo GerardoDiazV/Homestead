@@ -1,10 +1,8 @@
 @extends('UCN_layout')
+@section('title')Registrar actividad aprendizaje + servicio
+@endsection
 
-
-    @section('title')Registrar actividad aprendizaje + servicio
-    @endsection
-
-@section('content')
+@section('pre-body')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -14,8 +12,9 @@
             </ul>
         </div>
     @endif
-    <body>
-    <H1> <center> Registrar Actividad de Aprendizaje + Servicio <center> </H1>
+@endsection
+@section('content')
+    <H1> <center> Registrar Actividad de Aprendizaje + Servicio </center> </H1>
 <div class="container">
     <form autocomplete="off" method="POST" action="{{url('/registroASP')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
@@ -145,7 +144,4 @@
 
     </form>
 </div>
-
-</body>
-</html>
     @endsection

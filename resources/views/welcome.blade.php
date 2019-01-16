@@ -4,10 +4,9 @@
 @endsection
 
 @section('content')
-    <body>
             <div class="content">
                 <div class="title m-b-md pt-5">
-                    VINCULINK
+                    VINCULACION UCN
                 </div>
             </div>
         </div>
@@ -80,6 +79,4 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
     @endsection

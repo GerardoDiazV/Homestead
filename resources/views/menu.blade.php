@@ -3,15 +3,14 @@
 @section('title')Registros
 @endsection
 
+@section('pre-body')
+    <style>
+        .ancho {
+            width: 650px;
+        }
+    </style>
+@endsection
 @section('content')
-    <head>
-        <style>
-            .ancho {
-                width: 650px;
-            }
-        </style>
-    </head>
-    <body>
     <form autocomplete="off" method="GET" action="{{route('logout')}}" enctype="multipart/form-data">
         <div class="top-right form-group links">
             <span>
@@ -53,6 +52,4 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
     </form>
-    </body>
-    </html>
 @endsection

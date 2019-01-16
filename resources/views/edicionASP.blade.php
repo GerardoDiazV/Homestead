@@ -3,7 +3,7 @@
 @section('title')Registrar actividad de extension
 @endsection
 
-@section('content')
+@section('pre-body')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -13,8 +13,9 @@
             </ul>
         </div>
     @endif
-    <body>
-    <H1> <center> Edición Actividad de Aprendizaje + Servicio <center> </H1>
+@endsection
+@section('content')
+    <H1> <center> Edición Actividad de Aprendizaje + Servicio </center> </H1>
 
     <div class="container">
         <form autocomplete="off" method="POST" action="{{url('/registroASP')}}" enctype="multipart/form-data">
@@ -145,7 +146,4 @@
 
         </form>
     </div>
-
-    </body>
-    </html>
 @endsection

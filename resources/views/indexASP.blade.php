@@ -2,14 +2,8 @@
 @section('title')Administrar Actividades Aprendizaje + Servicio
 @endsection
 
-<style>
-    .column{
-        widh: 30%;
-        float:left;
-    }
-</style>
 
-@section('content')
+@section('pre-body')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -19,7 +13,15 @@
             </ul>
         </div>
     @endif
-    <body>
+
+    <style>
+        .column{
+            widh: 30%;
+            float:left;
+        }
+    </style>
+@endsection
+@section('content')
 
     <H1> <center> Administrar Actividades de Aprendizaje + Servicio <center></H1>
     <div class="container ancho p-1">
@@ -105,6 +107,4 @@
     </form>
     </div>
 
-    </body>
-    </html>
 @endsection

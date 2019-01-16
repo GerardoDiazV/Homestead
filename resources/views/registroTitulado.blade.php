@@ -3,7 +3,7 @@
 @section('title')Registrar Titulados
 @endsection
 
-@section('content')
+@section('pre-body')
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -14,9 +14,7 @@
             </ul>
         </div>
     @endif
-
-
-    <body><style>
+    <style>
         table {
             margin-top: -7px;
             margin-left: 2px;
@@ -25,6 +23,8 @@
         .table > tbody > tr:first-child > td {
             border: none;
         }</style>
+@endsection
+@section('content')
     <H1> <center> Registrar Actividad de Extension </center></H1>
     <div class="container">
         <form autocomplete="off" method="POST" action="{{url('/registroTitulado')}}" enctype="multipart/form-data">
@@ -265,9 +265,5 @@
 
         </form>
     </div>
-
-    </body>
-    </html>
-
 @endsection
 

@@ -3,7 +3,7 @@
 @section('title')Registrar actividad de extension
 @endsection
 
-@section('content')
+@section('pre-body')
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -13,18 +13,18 @@
                 @endforeach
             </ul>
         </div>
+
+        <style>
+            table {
+                margin-top: -7px;
+                margin-left: 2px;
+            }
+            .table > thead > tr:first-child > td,
+            .table > tbody > tr:first-child > td {
+                border: none;
+            }</style>
     @endif
 
-
-<body><style>
-    table {
-        margin-top: -7px;
-        margin-left: 2px;
-    }
-    .table > thead > tr:first-child > td,
-    .table > tbody > tr:first-child > td {
-        border: none;
-    }</style>
 <H1> <center> Registrar Actividad de Extension </center></H1>
 <div class="container">
     <form autocomplete="off" method="POST" action="{{route('extension.store')}}" enctype="multipart/form-data">
@@ -265,9 +265,5 @@
 
     </form>
 </div>
-
-</body>
-</html>
-
     @endsection
 

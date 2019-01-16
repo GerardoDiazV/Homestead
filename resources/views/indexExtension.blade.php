@@ -2,14 +2,8 @@
 @section('title')Administrar Actividades de Extension
 @endsection
 
-<style>
-    .column{
-        widh: 30%;
-        float:left;
-    }
-</style>
 
-@section('content')
+@section('pre-body')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -19,8 +13,16 @@
             </ul>
         </div>
     @endif
-    <body>
 
+    <style>
+        .column{
+            widh: 30%;
+            float:left;
+        }
+    </style>
+
+@endsection
+@section('content')
     <H1> <center> Administrar Actividades de Extension </center></H1>
     <div class="container pb-5" style = "text-align: center; ">
     <a class="btn btn-secondary" href="{{route('extension.create')}}" role="button"><font size="6">Registrar nueva actividad</font></a>
@@ -111,6 +113,4 @@
     </form>
     </div>
 
-    </body>
-    </html>
 @endsection

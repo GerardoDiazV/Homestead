@@ -1,10 +1,9 @@
 @extends('UCN_layout')
 
-@section('title')Editar actividad de extension
+@section('title')Registrar actividad de extension
 @endsection
 
-@section('content')
-
+@section('pre-body')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -13,10 +12,10 @@
                 @endforeach
             </ul>
         </div>
+
     @endif
 
-
-    <body><style>
+    <style>
         table {
             margin-top: -7px;
             margin-left: 2px;
@@ -24,7 +23,11 @@
         .table > thead > tr:first-child > td,
         .table > tbody > tr:first-child > td {
             border: none;
-        }</style>
+        }
+    </style>
+@endsection
+@section('content')
+
     <H1> <center> Editar Actividad de Extension </center></H1>
     <div class="container">
         <form autocomplete="off" method="POST" action="{{route('extension.create')}}" enctype="multipart/form-data">
@@ -275,9 +278,5 @@
 
         </form>
     </div>
-
-    </body>
-    </html>
-
 @endsection
 
