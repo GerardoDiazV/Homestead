@@ -42,6 +42,14 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
     });
 });
 
+Route::group(['middleware' => 'disablePreventBack'],function(){
+    Auth::routes();
+    Route::get('/', [
+        'as' => '',
+        'uses' => 'RegistroController@inicio'
+    ]);
+});
+
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
 Auth::routes();

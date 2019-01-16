@@ -126,7 +126,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            ¿Esta seguro que desea confirmar el registro??
+                            ¿Esta seguro que desea confirmar el registro?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
