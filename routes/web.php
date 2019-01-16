@@ -33,7 +33,8 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         Route::get('/indexASP','ActividadASPController@index')->name('indexASP');
         Route::resource('actividad_asp','ActividadASPController');
         Route::get('/actividad_asp/{id}/edit', 'ActividadASPController@edit')->name('edicionASP');
-
+        // Consultar Actividades de vinculacion
+        Route::get('/actividad/consultar','ConsultarActividadesController@create')->name('consultar.create');
         Route::middleware(['auth', 'role:encargado' || 'role:secretaria'])->group(function () {
             //Administracion de Actividades de Titulacion por Convenio
             Route::resource('actividad/titulacion','TitulacionConvenioController');
