@@ -2,6 +2,13 @@
 @section('title')Administrar Actividades Aprendizaje + Servicio
 @endsection
 
+@section('header_content')
+    <div class="top-right form-group links pr-5 ">
+            <span>
+                <a class="btn btn-secondary" href="{{route('menu')}}" role="button"><font size="5">Volver al menu</font></a>
+            </span>
+    </div>
+@endsection
 
 @section('pre-body')
     @if ($errors->any())
