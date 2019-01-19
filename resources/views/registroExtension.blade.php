@@ -24,7 +24,8 @@
                 border: none;
             }</style>
     @endif
-
+@endsection
+@section('content')
 <H1> <center> Registrar Actividad de Extension </center></H1>
 <div class="container">
     <form autocomplete="off" method="POST" action="{{route('extension.store')}}" enctype="multipart/form-data">
@@ -108,6 +109,7 @@
                         <input type="button" class="btn btn-md" id="addrow" value="Añadir otra persona" />
                     </td>
                 </tr>
+
                 </tbody>
                 <tfoot>
                 <tr>
@@ -220,7 +222,7 @@
                     cols += '<td><input type="text" class="form-control col-sm-10" name="oradores[]"/></td>';
                     cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
                     newRow.append(cols);
-                    $("#myTable.order-list").append(newRow);
+                    $("#myTable").append(newRow);
                     counter++;
                 });
                 $("#addrow2").on("click", function () {
