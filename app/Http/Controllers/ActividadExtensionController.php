@@ -156,6 +156,7 @@ class ActividadExtensionController extends Controller
 
         // Validacion
         $data = request()->all();
+
         $request->validate([
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'localizacion' => 'required',
@@ -187,7 +188,6 @@ class ActividadExtensionController extends Controller
         //Si se ingreso evidencia nueva, borrar la antigua y subir la nueva
 
         if(Arr::exists($data, 'inputEvidencia')){
-
             //Encontrar la direcion url guardad
             $url = $actividadExtension->evidencia;
             // Transformar la direccion URL en direccion de directorio y borrar
@@ -261,8 +261,10 @@ class ActividadExtensionController extends Controller
      */
     public function destroy($id)
     {
-        $actividad = ActividadExtension::get()->find($id);
-        $actividad->delete();
+        $actividadExtension = ActividadExtension::get()->find($id);
+        $directory = '/public/Extension/'.$id;
+        \Storage::deleteDirectory($directory);
+        $actividadExtension->delete();
         return back();
         //
     }
