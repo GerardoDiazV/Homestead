@@ -165,42 +165,25 @@ class ActividadExtensionController extends Controller
             'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
             'inputFotos.*' => 'nullable|file|image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
+        $convenioid = null;
         if(Arr::exists($data, 'convenio_id')) $convenioid = $data['convenio_id'];
-        ActividadExtension::create([
-            'nombre' => $data['nombre'],
-            'localizacion' => $data['localizacion'],
-            'fecha' => $data['fecha'],
-            'cant_asistentes' => $data['cant_asistentes'],
-            'evidencia' => $evidenciaURL,
-            'convenio_id' => $convenioid
-        ]);
 
-        $idActividad = ActividadExtension::latest()->first()->id;
-        foreach ($oradores as $orador){
-            ActividadExtensionOrador::create([
-                'actividad_extension_id' => $idActividad,
-                'orador' => $orador,
-            ]);
-        }
 
-        foreach ($organizadores as $organizador){
-            ActividadExtensionOrganizador::create([
-                'actividad_extension_id' => $idActividad,
-                'organizador' => $organizador,
-            ]);
+        $actividadExtension->nombre = $data['nombre'];
+        $actividadExtension->localizacion = $data['localizacion'];
+        $actividadExtension->fecha = $data['fecha'];
+        $actividadExtension->cant_asistentes = $data['cant_asistentes'];
+        if(Arr::exists($data, 'evidencia')){
+          \Storage::delete($actividadExtension->evidencia);
+            $idActividad = $actividadExtension->id;
+            $filename = 'evidencia-extension-' . $idActividad  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
+            $file = $request->file('inputEvidencia')->storeAs('public/Extension/'.$idActividad.'/Evidencia',$filename);
+            $evidenciaURL = \Storage::url($file);
+            $actividadExtension->evidencia = $evidenciaURL;
         }
+        $actividadExtension->convenio_id = $convenioid;
+        $actividadExtension->save();
 
-        $contFotos = 0;
-        foreach ($fotos as $foto){
-            $contFotos ++;
-            $filename = 'fotografia-extension-' . $idActividad . '-' . $contFotos  . '.' . $foto->getClientOriginalExtension();
-            $path = $foto->storeAs('public/Extension/'.$idActividad.'/Fotografias',$filename);
-            $fotografiaURL = \Storage::url($path);
-            ActividadExtensionFotografia::create([
-                'actividad_extension_id' => $idActividad,
-                'fotografia' => $fotografiaURL,
-            ]);
-        }
         return view('menu');
         //
     }
