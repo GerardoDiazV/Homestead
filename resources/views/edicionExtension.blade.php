@@ -30,7 +30,7 @@
 
     <H1> <center> Editar Actividad de Extension </center></H1>
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('extension.update',$actividadExtension)}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{route('extension.update',$actividadExtension['id'])}}" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('PUT') }}
             <div class="form-group row">
@@ -153,7 +153,7 @@
                         @if ($key > 0)
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control col-sm-10" name="organizadores[]" value = "{{$orador['orador']}}"/>
+                                    <input type="text" class="form-control col-sm-10" name="oradores[]" value = "{{$orador['orador']}}"/>
                                 </td>
                                 <td>
                                     <input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar">

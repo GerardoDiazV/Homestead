@@ -103,7 +103,7 @@ class ActividadExtensionController extends Controller
                 'fotografia' => $fotografiaURL,
             ]);
         }
-        return view('menu');
+        return $this->index();
         //
     }
 
@@ -151,8 +151,10 @@ class ActividadExtensionController extends Controller
      * @param  \App\ActividadExtension  $actividadExtension
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ActividadExtension $actividadExtension)
+    public function update(Request $request,$id)
     {
+
+        // Validacion
         $data = request()->all();
         $request->validate([
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
@@ -165,26 +167,89 @@ class ActividadExtensionController extends Controller
             'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
             'inputFotos.*' => 'nullable|file|image|mimes:jpeg,png,gif,webp|max:2048',
         ]);
-        $convenioid = null;
-        if(Arr::exists($data, 'convenio_id')) $convenioid = $data['convenio_id'];
 
+
+        // Encontrar Objeto Actividad
+        $actividadExtension = ActividadExtension::findOrFail($id);
+        $convenioid = null;
+
+        //Revisar si se ingreso convenio o es nulo
+        if(Arr::exists($data, 'convenio_id')) $convenioid = $data['convenio_id'];
+        $actividadExtension->convenio_id = $convenioid;
+
+        //Reemplazar datos
 
         $actividadExtension->nombre = $data['nombre'];
         $actividadExtension->localizacion = $data['localizacion'];
         $actividadExtension->fecha = $data['fecha'];
         $actividadExtension->cant_asistentes = $data['cant_asistentes'];
-        if(Arr::exists($data, 'evidencia')){
-          \Storage::delete($actividadExtension->evidencia);
-            $idActividad = $actividadExtension->id;
-            $filename = 'evidencia-extension-' . $idActividad  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
-            $file = $request->file('inputEvidencia')->storeAs('public/Extension/'.$idActividad.'/Evidencia',$filename);
+
+        //Si se ingreso evidencia nueva, borrar la antigua y subir la nueva
+
+        if(Arr::exists($data, 'inputEvidencia')){
+
+            //Encontrar la direcion url guardad
+            $url = $actividadExtension->evidencia;
+            // Transformar la direccion URL en direccion de directorio y borrar
+            $location = str_replace("/storage","public",$url);
+            \Storage::delete($location);
+
+            // Crear nuevo archivo
+            $filename = 'evidencia-extension-' . $id  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
+            $file = $request->file('inputEvidencia')->storeAs('public/Extension/'.$id.'/Evidencia',$filename);
             $evidenciaURL = \Storage::url($file);
             $actividadExtension->evidencia = $evidenciaURL;
         }
-        $actividadExtension->convenio_id = $convenioid;
+
         $actividadExtension->save();
 
-        return view('menu');
+
+        //Borrar los arreglos actuales y subirlos denuevo
+
+        $actividadExtension->oradores()->delete();
+        foreach ($data['oradores'] as $orador){
+            ActividadExtensionOrador::create([
+                'actividad_extension_id' => $id,
+                'orador' => $orador,
+            ]);
+        }
+        $actividadExtension->organizadores()->delete();
+        foreach ($data['organizadores']as $organizador){
+            ActividadExtensionOrganizador::create([
+                'actividad_extension_id' => $id,
+                'organizador' => $organizador,
+            ]);
+        }
+
+        //Borrar el listado de fotos y subirlo denuevo si es que se ingresaron fotos
+
+        $contFotos = 0;
+        if(Arr::exists($data, 'inputFotos')){
+            // Borrar Archivos antiguos basandose en sus direcciones:
+            foreach($actividadExtension->fotografias()->get() as $archivoFoto){
+                //Encontrar la direcion url guardada
+                $url = $archivoFoto->fotografia;
+                // Transformar la direccion URL en direccion de directorio y borrar
+                $location = str_replace("/storage","public",$url);
+                \Storage::delete($location);
+            }
+
+            // Borrar las Relaciones a la tabla fotografias
+            $actividadExtension->fotografias()->delete();
+            // Re subir los archivos
+            foreach($request->file('inputFotos') as $foto){
+                $contFotos ++;
+                $filename = 'fotografia-extension-' . $id . '-' . $contFotos  . '.' . $foto->getClientOriginalExtension();
+                $file = $foto->storeAs('public/Extension/'.$id.'/Fotografias',$filename);
+                $fotografiaURL = \Storage::url($file);
+                ActividadExtensionFotografia::create([
+                    'actividad_extension_id' => $id,
+                    'fotografia' => $fotografiaURL,
+                ]);
+            }
+        }
+
+        return $this->index();
         //
     }
 
