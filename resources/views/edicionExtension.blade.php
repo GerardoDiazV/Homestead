@@ -30,8 +30,9 @@
 
     <H1> <center> Editar Actividad de Extension </center></H1>
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('extension.create')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{route('extension.update',$actividadExtension)}}" enctype="multipart/form-data">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="form-group row">
                 <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>
                 <div class="col-sm-3">
@@ -63,6 +64,15 @@
             </div>
 
 
+            <div class = "form-group row ">
+                <div class="col-sm-2 "></div>
+                <div class="col-sm-3 ">
+                    ​<figure>
+                        <img class = "img-thumbnail" src="{{$actividadExtension['evidencia']}}">
+                        <figcaption class="figure-caption">Evidencia actual.</figcaption>
+                    </figure>
+                </div>
+            </div>
             <div class="form-group row">
                 <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia de lista de asistentes</label>
                 <div class="col-sm-3">
@@ -70,8 +80,29 @@
                 </div>
             </div>
 
+
+
             <div class="form-group row">
-                <label for="inputEvidencia" class="col-sm-2 col-form-label">(Opcional) Fotografias</label>
+                <table class="table">
+                    <thead class="thead-light">
+                    <caption>Fotografias Registradas</caption>
+                    <tr>
+                        <th scope="col">Nombre Archivo</th>
+                        <th scope="col">Miniatura</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($fotografias as $key => $foto)
+                        <tr>
+                            <th scope="row">{{$nombresFotos[$key]}}</th>
+                            <td><img class=" col-sm-2 img-thumbnail" src="{{$foto['fotografia']}}"</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group row">
+                <label for="inputFotosa" class="col-sm-2 col-form-label">(Opcional) Fotografias</label>
                 <div class="col-sm-3">
                     <input type="file" class="form-control file" name="inputFotos[]" id="inputFotos" multiple>
                 </div>
