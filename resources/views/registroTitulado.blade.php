@@ -25,64 +25,119 @@
         }</style>
 @endsection
 @section('content')
-    <H1> <center> Registrar Titulados DISC </center> </H1>
+    <H1> <center> Registrar Actividad de Extension </center></H1>
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('titulados.store')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{url('/registroTitulado')}}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group row">
-                <label for="inputNombre" class="col-sm-2 col-form-label">Nombre Titulado</label>
+                <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "nombre" id="inputNombre">
+                    <input type="text" class="form-control" name= "nombre" id="inputActividad" value ="{{ old('nombre') }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputLocalizacion" class="col-sm-2 col-form-label">Localización</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name= "localizacion" id="inputLocalizacion" value ="{{ old('localizacion') }}">
                 </div>
             </div>
 
 
             <div class="form-group row">
-                <label for="inputRut" class="col-sm-2 col-form-label">Rut</label>
+                <label for="inputFecha" class="col-sm-2 col-form-label">Fecha</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "rut" id="inputRut">
+                    <input id="datepicker" onkeydown="return false" class="date" name = "fecha" width="292" value ="{{ old('fecha') }}"/>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="inputTelefono" class="col-sm-2 col-form-label">Telefono</label>
+                <label for="inputAsistentes" class="col-sm-2 col-form-label">Cantidad de asistentes</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "telefono" id="inputTelefono">
+                    <input type="number" class="form-control" name= "cant_asistentes" id="inputAsistentes"
+                           min = 1 onkeypress='return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57'
+                           value ="{{ old('cant_asistentes') }}">
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia de lista de asistentes</label>
+                <div class="col-sm-3">
+                    <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="inputemail" class="col-sm-2 col-form-label">Email</label>
+                <label for="inputEvidencia" class="col-sm-2 col-form-label">(Opcional) Fotografias</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "email" id="inputEmail">
+                    <input type="file" class="form-control file" name="inputFotos[]" id="inputFotos" multiple>
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="inputEmpresa" class="col-sm-2 col-form-label">Nombre Empresa</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "empresa" id="inputEmpresa">
-                </div>
-            </div>
+
 
             <div class="form-group row">
-                <label for="inputAnio" class="col-sm-2 col-form-label">Año de Titulación</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "titulacion_year" id="inputAnio">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Carrera</label>
-                <div class="col-sm-3">
-                    <select class="form-control" name = "carrera" id="exampleFormControlSelect1">
-                        <option value="" disabled selected> Seleccione Carrera</option>
-                        <option>ICCI</option>
-                        <option>IECI</option>
+                <label for="exampleFormControlSelect1" class = "col-sm-2 col-form-label">Convenio asociado</label>
+                <div class = "col-sm-3">
+                    <select class="form-control" id="convenioSelect" name= "convenio_id">
+                        <option value="" disabled selected>(Opcional) Seleccione convenio relacionado</option>
+                        @foreach($convenios as $convenio)
+                            <option value="{{$convenio->id}}">Fecha inicio: {{$convenio->fecha_inicio}},
+                                Empresa Convenio: {{$convenio->organizacion()->first()->nombre}},
+                                Tipo Convenio: {{$convenio->tipo_convenio}}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
 
+
+            <div class="form-group row">
+                <table id="myTable" class=" table order-list " style="width: 40.0%">
+                    <thead>
+                    <tr>
+                        <td class = "col-sm-12">Orador/es</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="oradores[]" class="form-control col-sm-10" />
+                        </td>
+                        <td colspan="5" style="text-align: left;">
+                            <input type="button" class="btn btn-md" id="addrow" value="Añadir otra persona" />
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="form-group row">
+                <table id="myTable2" class=" table order-list " style="width: 40.0%">
+                    <thead>
+                    <tr>
+                        <td class = "col-sm-12">Organizador/es</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="organizadores[]" class="form-control col-sm-10" />
+                        </td>
+                        <td colspan="5" style="text-align: left;">
+                            <input type="button" class="btn btn-md" id="addrow2" value="Añadir otra persona" />
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
 
             <div class="form-group row">
                 <div class="col-sm-2">
@@ -112,7 +167,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                            <a type="button" class="btn btn-primary" href="{{route('titulados.index')}}" role="button">Cancelar registro</a>
+                            <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
                         </div>
                     </div>
                 </div>
@@ -129,7 +184,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            ¿Esta seguro que desea confirmar el registro?
+                            ¿Esta seguro que desea confirmar el registro??
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
@@ -149,93 +204,58 @@
                 // Multiple Rows:
 
                 $(document).ready(function () {
-                    var counter1 = 0;
-                    var counter2 = 0;
-                    var hidden1 = false;
-                    var hidden2 = false;
+                    var counter = 0;
 
-                    $('#datepicker').datepicker({
+                    $('.date').datepicker({
                         forceparse: true,
                         autoclose: true,
                         format: 'yyyy-mm-dd',
                         uiLibrary: 'bootstrap4'
                     });
-
-                    $('#datepicker2').datepicker({
-                        forceparse: true,
-                        autoclose: true,
-                        format: 'yyyy-mm-dd',
-                        uiLibrary: 'bootstrap4'
-                    });
-
-
 
 
                     $("#addrow").on("click", function () {
-
-                        if(counter1<1){
-                            var newRow = $('<div class = "DinamicInput pt-4" >');
-                            var cols = "";
-                            cols += '             <div class="form-group row">\n' +
-                                '                <label for="profesores" class="col-sm-2 col-form-label">Nombre</label>\n' +
-                                '                <div class="col-sm-3">\n' +
-                                '                    <input type="text" class="form-control" name= "profesores[]" id="profesores">\n' +
-                                '                </div>\n' +
-                                '                <input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar">\n' +
-                                '            </div>'
-                            newRow.append(cols);
-                            $("#tableDinamicInput1").append(newRow);
-                            counter1++;
-                            document.getElementById('addrow').style.visibility = 'hidden';
-
-                        }else{};
+                        var newRow = $("<tr>");
+                        var cols = "";
+                        cols += '<td><input type="text" class="form-control col-sm-10" name="oradores[]"/></td>';
+                        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
+                        newRow.append(cols);
+                        $("#myTable.order-list").append(newRow);
+                        counter++;
                     });
                     $("#addrow2").on("click", function () {
-                        if(counter2 < 3) {
-                            var newRow = $('<div class = "DinamicInput pt-4" >');
-                            var cols = "";
-                            cols += '            <div class="form-group row">\n' +
-                                '                <label for="nombreEstudiante" class="col-sm-1 col-form-label">Nombre</label>\n' +
-                                '                <div class="col-sm-2">\n' +
-                                '                    <input type="text" class="form-control" name= "nombresEstudiantes[]" id="nombreEstudiante">\n' +
-                                '                </div>\n' +
-                                '                <label for="rutEstudiante" class="col-sm-1 col-form-label">Rut</label>\n' +
-                                '                <div class="col-sm-2">\n' +
-                                '                    <input type="text" class="form-control" name= "rutsEstudiantes[]" id="rutEstudiante">\n' +
-                                '                </div>\n' +
-                                '                <label for="carreraEstudiante" class="col-sm-1 col-form-label">Carrera</label>\n' +
-                                '                <div class="col-sm-2">\n' +
-                                '                    <input type="text" class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante">\n' +
-                                '                </div>\n' +
-                                '                <input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar">\n' +
-                                '            </div>'
-                            newRow.append(cols);
-                            $("#tableDinamicInput2").append(newRow);
-                            counter2++;
-                            if(counter2 == 3){
-                                document.getElementById('addrow2').style.visibility = 'hidden';
-                            }
-                        }
+                        var newRow = $("<tr>");
+                        var cols = "";
 
+                        cols += '<td><input type="text" class="form-control col-sm-10" name="organizadores[]"/></td>';
+                        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Borrar"></td>';
+                        newRow.append(cols);
+                        $("#myTable2.order-list").append(newRow);
+                        counter++;
                     });
 
 
-                    $("#tableDinamicInput1").on("click", ".ibtnDel", function (event) {
-                        $(this).closest(".DinamicInput").remove();
-                        document.getElementById('addrow').style.visibility = 'visible';
-                        counter1 -= 1
+                    $("table.order-list").on("click", ".ibtnDel", function (event) {
+                        $(this).closest("tr").remove();
+                        counter -= 1
                     });
 
-                    $("#tableDinamicInput2").on("click", ".ibtnDel", function (event) {
-                        $(this).closest(".DinamicInput").remove();
-                        if(counter2 == 3){
-                            document.getElementById('addrow2').style.visibility = 'visible';
-                        }
-                        counter2 -= 1
-                    });
+
                 });
 
 
+                function calculateRow(row) {
+                    var price = +row.find('input[name^="price"]').val();
+
+                }
+
+                function calculateGrandTotal() {
+                    var grandTotal = 0;
+                    $("table.order-list").find('input[name^="price"]').each(function () {
+                        grandTotal += +$(this).val();
+                    });
+                    $("#grandtotal").text(grandTotal.toFixed(2));
+                }
             </script>
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -246,3 +266,4 @@
         </form>
     </div>
 @endsection
+

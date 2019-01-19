@@ -18,7 +18,7 @@
     <H1> <center> Edición Actividad de Aprendizaje + Servicio </center> </H1>
 
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('asp.create')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{url('/registroASP')}}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group row">
                 <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>

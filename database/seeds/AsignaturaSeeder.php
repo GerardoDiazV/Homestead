@@ -14,71 +14,71 @@ class AsignaturaSeeder extends Seeder
         //factory(\App\Convenio::class, 15)->create();
 
         App\Asignatura::create([
-           'nombre_asign'=>'Programación'
+           'nombre_asign'=>'Programación',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Estructura de Datos'
+            'nombre_asign'=>'Estructura de Datos',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Bases de datos'
+            'nombre_asign'=>'Bases de datos',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Programación avanzada'
+            'nombre_asign'=>'Programación avanzada',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Ingenería de Software I'
+            'nombre_asign'=>'Ingenería de Software I',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Ingeniería de Software II'
+            'nombre_asign'=>'Ingeniería de Software II',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Sistemas de Información I'
+            'nombre_asign'=>'Sistemas de Información I',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Sistemas de Información II'
+            'nombre_asign'=>'Sistemas de Información II',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Inteligencia Artificial'
+            'nombre_asign'=>'Inteligencia Artificial',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Compiladores'
+            'nombre_asign'=>'Compiladores',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Análisis de Señales'
+            'nombre_asign'=>'Análisis de Señales',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Lenguaje de Programación'
+            'nombre_asign'=>'Lenguaje de Programación',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Análisis de Algoritmos'
+            'nombre_asign'=>'Análisis de Algoritmos',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Diseño de Sistemas Digitales'
+            'nombre_asign'=>'Diseño de Sistemas Digitales',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Arquitectura de Computadores'
+            'nombre_asign'=>'Arquitectura de Computadores',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Circuitos Electrónicos'
+            'nombre_asign'=>'Circuitos Electrónicos',
         ]);
 
         App\Asignatura::create([
-            'nombre_asign'=>'Laboratorio de Computadores'
+            'nombre_asign'=>'Laboratorio de Computadores',
         ]);
     }
 }

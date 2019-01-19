@@ -28,20 +28,17 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         //Administracion de Actividad de Extension
         Route::resource('actividad/extension','ActividadExtensionController');
         //Administracion de Actividades de Aprendizaje + Servicios (A+S)
-        Route::resource('actividad/asp','ActividadASPController');
+        Route::get('/registroASP', 'ActividadASPController@create')->name('registroASP');
+        Route::post('/registroASP', 'ActividadASPController@store');
+        Route::get('/indexASP','ActividadASPController@index')->name('indexASP');
+        Route::resource('actividad_asp','ActividadASPController');
+        Route::get('/actividad_asp/{id}/edit', 'ActividadASPController@edit')->name('edicionASP');
         // Consultar Actividades de vinculacion
         Route::get('/actividad/consultar','ConsultarActividadesController@create')->name('consultar.create');
         Route::middleware(['auth', 'role:encargado' || 'role:secretaria'])->group(function () {
             //Administracion de Actividades de Titulacion por Convenio
             Route::resource('actividad/titulacion','TitulacionConvenioController');
         });
-
-        Route::middleware(['auth','role:secretaria'])->group(function () {
-            //Administracion de Registro de Titulados
-            Route::resource('actividad/titulados','TituladoDISCController');
-        });
-
-
 
     });
 });
