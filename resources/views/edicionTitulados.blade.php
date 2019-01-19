@@ -27,10 +27,11 @@
     </style>
 @endsection
 @section('content')
-    <H1> <center> Registrar Titulados DISC </center> </H1>
+    <H1> <center> Editar Registro Titulados DISC </center> </H1>
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('titulados.store')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{route('titulados.update',$registroTitulado['id'])}}" enctype="multipart/form-data">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="form-group row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre Titulado</label>
                 <div class="col-sm-3">

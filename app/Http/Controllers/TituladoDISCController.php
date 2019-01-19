@@ -80,16 +80,9 @@ class TituladoDISCController extends Controller
     public function edit($id)
     {
         $registroTitulado= TituladoDISC::findOrFail($id);
-        $nombre=$registroTitulado->nombre;
-        $rut=$registroTitulado->rut;
-        $telefono=$registroTitulado->telefono;
-        $email=$registroTitulado->email;
-        $empresa=$registroTitulado->empresa;
-        $titulacion_year=$registroTitulado->titulacion_year;
-        $carrera=$registroTitulado->carrera;
 
-        return view('edicionTitulados',compact("registroTitulado", 'nombre',
-            'rut', 'telefono','email','empresa','titulacion_year','carrera'));//
+
+        return view('edicionTitulados',compact("registroTitulado"));//
     }
 
     /**
@@ -99,9 +92,34 @@ class TituladoDISCController extends Controller
      * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TituladoDISC $tituladoDISC)
+    public function update(Request $request,$id)
     {
-        //
+        $data = request()->all();
+        $request->validate([
+            'nombre' =>  'required|regex:/^[\pL\s\-]+$/u',
+            'rut' => 'required|regex:/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/',
+            'telefono' => 'regex:/^(\+?56)?(\s?)(0?9)(\s?)[98765]\d{7}$/',
+            'email' => 'email',
+            'empresa'=> 'regex:/^[\pL\s\-]+$/u',
+            'titulacion_year' => 'required|numeric:4',
+            'carrera' => 'required',
+
+        ]);
+
+        $registroTitulado= TituladoDISC::findOrFail($id);
+
+        $registroTitulado->nombre = $data['nombre'];
+        $registroTitulado->rut = $data['rut'];
+        $registroTitulado->telefono = $data['telefono'];
+        $registroTitulado->email = $data['email'];
+        $registroTitulado->empresa = $data['empresa'];
+        $registroTitulado->titulacion_year = $data['titulacion_year'];
+        $registroTitulado->carrera = $data['carrera'];
+
+        $registroTitulado->save();
+
+        return $this->index();
+
     }
 
     /**
@@ -110,8 +128,10 @@ class TituladoDISCController extends Controller
      * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TituladoDISC $tituladoDISC)
+    public function destroy($id)
     {
-        //
+        $registroTitulado= TituladoDISC::get()->find($id);
+        $registroTitulado->delete();
+        return back();
     }
 }

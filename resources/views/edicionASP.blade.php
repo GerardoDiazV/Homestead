@@ -18,19 +18,20 @@
     <H1> <center> Edición Actividad de Aprendizaje + Servicio </center> </H1>
 
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{route('asp.create')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{route('asp.update',$actividadASP['id']}}" enctype="multipart/form-data">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="form-group row">
                 <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "nombre" id="inputActividad">
+                    <input type="text" class="form-control" name= "nombre" id="inputActividad" value ="{{ $actividadASP['nombre'] }}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Asignatura</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="asignaturasSelect" name= "asignatura_id">
+                    <select class="form-control" id="asignaturasSelect" name= "nombre_asign" value="{{ $actividadASP['asignatura'] }}">
                         <option value="" disabled selected> Seleccione asignatura</option>
                         @foreach($asignaturas as $asignatura)
                             <option value="{{$asignatura->id}}">{{$asignatura->nombre_asign}},
@@ -42,15 +43,23 @@
 
 
             <div class="form-group row">
-                <label for="inputProfesor" class="col-sm-2 col-form-label">Profesor</label>
+                <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Profesor</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "profesor" id="inputProfesor">
+                    <select class="form-control" id="profesorSelect" name= "nombre_profesor">
+                        <option value="" disabled selected> Seleccione profesor</option>
+                        @foreach($profesores as $profesor)
+                            <option value="{{$profesor->nombre_profesor}}">{{$profesor->nombre_profesor}},
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+
+
             <div class="form-group row">
                 <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Periodo</label>
                 <div class="col-sm-3">
-                    <select class="form-control" name = "periodo" id="exampleFormControlSelect1">
+                    <select class="form-control" name = "periodo" id="exampleFormControlSelect1" value="{{ $actividadASP['periodo'] }}">
                         <option value="" disabled selected> Seleccione año/semestre</option>
                         <option>2018-2</option>
                         <option>2018-1</option>
@@ -64,24 +73,42 @@
             <div class="form-group row">
                 <label for="inputEstudiantes" class="col-sm-2 col-form-label">Cantidad de estudiantes</label>
                 <div class="col-sm-3">
-                    <input type="number" class="form-control" name= "cant_estudiantes" id="inputEstudiantes"
+                    <input type="number" class="form-control" name= "cant_estudiantes" id="inputEstudiantes" value="{{ $actividadASP['cant_estudiantes'] }}"
                            min = 0 onkeypress='return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57'>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre socio Comunitario</label>
+                <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Nombre socio comunitario</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "nombre_organizacion" id="inputOrganizacion">
+                    <select class="form-control" id="organizacionesSelect" name= "organizacion_id" value="{{ $actividadASP['organizacion_id'] }}">
+                        <option value="" disabled selected> Seleccione socio comunitario</option>
+                        @foreach($organizaciones as $socio)
+                            <option value="{{$socio->nombre}}">{{$socio->nombre}},
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia</label>
-                <div class="col-sm-3">
-                    <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia">
+
+            <div class = "form-group row ">
+                <div class="col-sm-2 "></div>
+                <div class="col-sm-3 ">
+                    ​<figure>
+                        <img class = "img-thumbnail" src="{{$actividadASP['evidencia']}}">
+                        <figcaption class="figure-caption">Evidencia actual.</figcaption>
+                    </figure>
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia de lista de asistentes</label>
+                <div class="col-sm-3">
+                    <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia" value ="{{ $actividadASP['evidencia'] }}">
+                </div>
+            </div>
+
+
             <div class="form-group row">
                 <div class="col-sm-2">
         <span class="border">

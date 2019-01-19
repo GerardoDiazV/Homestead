@@ -48,12 +48,12 @@ class ActividadASPController extends Controller
         $data = request()->all();
         $request->validate([
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
-            'asignatura_id' => 'required',
-            'profesor_id' => 'required',
+            'nombre_asign' => 'required',
+            'nombre_profesor' => 'required',
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
             'organizacion_id' => 'required',
-            'inputEvidencia' => 'required|file:pdf',
+            'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
 
         ]);
 
@@ -61,8 +61,8 @@ class ActividadASPController extends Controller
 
         ActividadASP::create([
             'nombre' => $data['nombre'],
-            'asignatura' => $data['asignatura_id'],
-            'profesor' => $data['profesor_id'],
+            'asignatura' => $data['nombre_asign'],
+            'profesor' => $data['nombre_profesor'],
             'periodo' => $data['periodo'],
             'cant_estudiantes' => $data['cant_estudiantes'],
             'evidencia' => $file,
@@ -99,8 +99,14 @@ class ActividadASPController extends Controller
     public function edit($id)
     {
         $actividadASP= ActividadASP::findOrFail($id);
+
         $asignaturas = Asignatura::orderBy('nombre_asign')->get();
-        return view('edicionASP',compact("actividadASP","asignaturas"));
+        $organizaciones= Organizacion::OrderBy('nombre')->get();
+        $profesores= Profesor::OrderBy('nombre_profesor')->get();
+
+
+        return view('edicionASP',['asignaturas'=> $asignaturas,'organizaciones'=>$organizaciones,'profesores'=>$profesores],compact("actividadASP"));
+
     }
 
     /**
@@ -110,9 +116,55 @@ class ActividadASPController extends Controller
      * @param  \App\ActividadASP  $actividadASP
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ActividadASP $actividadASP)
+    public function update(Request $request,$id)
     {
-        //
+        $data = request()->all();
+        $request->validate([
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
+            'nombre_asign' => 'required',
+            'nombre_profesor' => 'required',
+            'periodo' => 'required',
+            'cant_estudiantes'=> 'required',
+            'organizacion_id' => 'required',
+            'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
+
+        ]);
+
+
+        $socioComunitario = $data['organizacion_id'];
+        $organizacionId = Organizacion::where('nombre',$socioComunitario)->first()->id;
+        $actividadId = ActividadASP::where('nombre',$request->nombre)->first()->id;
+        ActividadASP_Organizacion::create([
+            'actividadasp_id' => $actividadId,
+            'organizacion_id' => $organizacionId,
+        ]);
+
+        $actividadASP= ActividadASP::findOrFail($id);
+
+        $actividadASP->nombre = $data['nombre'];
+        $actividadASP->asignatura_id = $data['nombre_asign'];
+        $actividadASP->profesor = $data['nombre_profesor'];
+        $actividadASP->periodo = $data['periodo'];
+        $actividadASP->cant_estudiantes = $data['cant_estudiantes'];
+
+        if(Arr::exists($data, 'inputEvidencia')){
+
+            //Encontrar la direcion url guardad
+            $url = $actividadASP->evidencia;
+            // Transformar la direccion URL en direccion de directorio y borrar
+            $location = str_replace("/storage","public",$url);
+            \Storage::delete($location);
+
+            // Crear nuevo archivo
+            $filename = 'evidencia-extension-' . $id  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
+            $file = $request->file('inputEvidencia')->storeAs('public/Extension/'.$id.'/Evidencia',$filename);
+            $evidenciaURL = \Storage::url($file);
+            $actividadASP->evidencia = $evidenciaURL;
+        }
+
+        $actividadASP->save();
+        return $this->index();
+
     }
 
     /**

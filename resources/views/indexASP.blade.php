@@ -58,7 +58,7 @@
                         <div class = "btn-group">
                             <form action="{{route('asp.destroy',$item->id)}}" method="POST">
                                 {{csrf_field()}}
-                                <a class="btn btn-secondary" role="button"href="{{route('extension.edit',$item->id)}}" >
+                                <a class="btn btn-secondary" role="button"href="{{route('asp.edit',$item->id)}}" >
                                     Editar
                                 </a>
 
