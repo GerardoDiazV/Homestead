@@ -33,15 +33,14 @@ class DatabaseSeeder extends Seeder
         // La creación de datos de roles debe ejecutarse primero
 
         $this->call([
-        RoleTableSeeder::class,
-        UserTableSeeder::class,
-        ActividadASPSeeder::class,
-
-        OrganizacionSeeder::class,
+            RoleTableSeeder::class,
+            UserTableSeeder::class,
+            ActividadASPSeeder::class,
+            OrganizacionSeeder::class,
             ConvenioSeeder::class,
             ActividadExtensionSeeder::class,
-        ActividadASPOrganizacionSeeder::class,
-        AsignaturaSeeder::class,
+            ActividadASPOrganizacionSeeder::class,
+            AsignaturaSeeder::class,
             TitulacionConvenioSeeder::class
         ]);
     }
