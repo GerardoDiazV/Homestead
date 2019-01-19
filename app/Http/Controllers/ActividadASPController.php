@@ -6,6 +6,7 @@ use App\ActividadASP;
 use App\Organizacion;
 use App\Asignatura;
 use App\ActividadASP_Organizacion;
+use App\Profesor;
 use Illuminate\Http\Request;
 
 class ActividadASPController extends Controller
@@ -30,7 +31,9 @@ class ActividadASPController extends Controller
     {
        // $asignaturas = Asignatura::all();
         $asignaturas = Asignatura::orderBy('nombre_asign')->get();
-        return view('registroASP',['asignaturas'=> $asignaturas]);//
+        $organizaciones= Organizacion::OrderBy('nombre')->get();
+        $profesores= Profesor::OrderBy('nombre_profesor')->get();
+        return view('registroASP',['asignaturas'=> $asignaturas,'organizaciones'=>$organizaciones,'profesores'=>$profesores]);//
     }
 
     /**
@@ -46,10 +49,10 @@ class ActividadASPController extends Controller
         $request->validate([
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'asignatura_id' => 'required',
-            'profesor' => 'required|regex:/^[\pL\s\-]+$/u',
+            'profesor_id' => 'required',
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
-            'nombre_organizacion' => 'required|regex:/^[\pL\s\-]+$/u',
+            'organizacion_id' => 'required',
             'inputEvidencia' => 'required|file:pdf',
 
         ]);
@@ -59,12 +62,12 @@ class ActividadASPController extends Controller
         ActividadASP::create([
             'nombre' => $data['nombre'],
             'asignatura' => $data['asignatura_id'],
-            'profesor' => $data['profesor'],
+            'profesor' => $data['profesor_id'],
             'periodo' => $data['periodo'],
             'cant_estudiantes' => $data['cant_estudiantes'],
             'evidencia' => $file,
         ]);
-        $socioComunitario = $data['nombre_organizacion'];
+        $socioComunitario = $data['organizacion_id'];
         $organizacionId = Organizacion::where('nombre',$socioComunitario)->first()->id;
         $actividadId = ActividadASP::where('nombre',$request->nombre)->first()->id;
         ActividadASP_Organizacion::create([
