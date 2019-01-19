@@ -27,46 +27,49 @@
             float:left;
         }
     </style>
+
 @endsection
 @section('content')
 
-    <H1> <center> Administrar Actividades de Aprendizaje + Servicio <center></H1>
-    <div class="container ancho p-1">
-    <a class="btn btn-primary btn-block " href="{{route('registroASP')}}" role="button"><font size="6">Registrar nueva actividad</font></a>
+    <H1> <center> Administrar Actividades de Aprendizaje + Servicio </center></H1>
+    <div class="container pb-5" style = "text-align: center; ">
+        <a class="btn btn-secondary" href="{{route('asp.create')}}" role="button"><font size="6">Registrar nueva actividad</font></a>
     </div>
-    <table class="table table-bordered" id="MyTable">
-        <thead>
-        <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">Nombre</th>
-            <th class="text-center">Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class = "container">
+        <table class="table table-bordered  table-striped table-hover" id="MyTable">
+            <thead>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Titulo de Actividad</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
 
     @if($actividad_asp)
         <ul>
             <tr>
             @foreach($actividad_asp as $item)
 
-                    <td class="text-center">{{ $item->id }}</td>
+                <tr>
+                    <td class="text-center" id="{{ $item->id }}">{{ $item->id }}</td>
                     <td class="text-left">{{ $item->nombre }}</td>
-
-                    <td class="text-center">
-                    <div class = "row pl-5 ">
-
-                        <div class="column">
-                            <a href="{{route('actividad_asp.edit',$item->id)}}" class="btn btn-info btn-xs">
-                                Editar</a>
-                        </div>
-
-
-                        <div class="column">
-                            <form action="{{route('actividad_asp.destroy',$item->id)}}" method="POST">
+                    <td class="text-center" width="20%">
+                        <div class = "btn-group">
+                            <form action="{{route('asp.destroy',$item->id)}}" method="POST">
                                 {{csrf_field()}}
+                                <a class="btn btn-secondary" role="button"href="{{route('extension.edit',$item->id)}}" >
+                                    Editar
+                                </a>
+
                                 <input type="hidden" name="_method" value="DELETE">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmSubmitModal" >Eliminar</button>
-                                <div class="modal fade" id="confirmSubmitModal" tabindex="-1" role="dialog" aria-labelledby="confirmSubmitModal" aria-hidden="true">
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal{{ $item->id }}" >Eliminar</button>
+
+
+
+                                <!-- Modals --->
+
+                                <div class="modal fade" id="modal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ $item->id }}" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -76,7 +79,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                ¿Esta seguro que desea elminar la actividad?
+                                                ¿Esta seguro que desea eliminar la actividad?
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
@@ -85,22 +88,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form></div>
-                    </div>
+
+                            </form>
+                        </div>
                     </td>
-
-            </tr>
-
+                </tr>
             @endforeach
         </ul>
     @else
         <p> No hay Actividades registradas </p>
-    @endif
-
-    </table>
-
-    <div class="container ancho p-1">
-        <a class="btn btn-primary btn-block " href="{{route('menu')}}" role="button"><font size="6">Volver</font></a>
+            @endif
+        </table>
     </div>
 
     </body>

@@ -1,10 +1,9 @@
 @extends('UCN_layout')
 
-@section('title')Registrar Titulados
+@section('title')Registrar Titulados DISC
 @endsection
 
 @section('pre-body')
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -13,7 +12,9 @@
                 @endforeach
             </ul>
         </div>
+
     @endif
+
     <style>
         table {
             margin-top: -7px;
@@ -22,7 +23,8 @@
         .table > thead > tr:first-child > td,
         .table > tbody > tr:first-child > td {
             border: none;
-        }</style>
+        }
+    </style>
 @endsection
 @section('content')
     <H1> <center> Registrar Titulados DISC </center> </H1>
@@ -32,7 +34,7 @@
             <div class="form-group row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre Titulado</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "nombre" id="inputNombre">
+                    <input type="text" class="form-control" name= "nombre" id="inputNombre" value ="{{ $registroTitulado['nombre'] }}">
                 </div>
             </div>
 
@@ -40,35 +42,35 @@
             <div class="form-group row">
                 <label for="inputRut" class="col-sm-2 col-form-label">Rut</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "rut" id="inputRut">
+                    <input type="text" class="form-control" name= "rut" id="inputRut" value ="{{ $registroTitulado['rut'] }}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputTelefono" class="col-sm-2 col-form-label">Telefono</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "telefono" id="inputTelefono">
+                    <input type="text" class="form-control" name= "telefono" id="inputTelefono" value ="{{ $registroTitulado['telefono'] }}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputemail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "email" id="inputEmail">
+                    <input type="text" class="form-control" name= "email" id="inputEmail" value ="{{ $registroTitulado['email'] }}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputEmpresa" class="col-sm-2 col-form-label">Nombre Empresa</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "empresa" id="inputEmpresa">
+                    <input type="text" class="form-control" name= "empresa" id="inputEmpresa" value ="{{ $registroTitulado['empresa'] }}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputAnio" class="col-sm-2 col-form-label">Año de Titulación</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "titulacion_year" id="inputAnio">
+                    <input type="text" class="form-control" name= "titulacion_year" id="inputAnio" value ="{{ $registroTitulado['titulacion_year'] }}">
                 </div>
             </div>
 

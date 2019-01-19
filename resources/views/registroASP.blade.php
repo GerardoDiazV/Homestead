@@ -1,8 +1,8 @@
 @extends('UCN_layout')
 @section('title')Registrar actividad aprendizaje + servicio
 @endsection
-
 @section('pre-body')
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -12,11 +12,22 @@
             </ul>
         </div>
     @endif
+        <style>
+            table {
+                margin-top: -7px;
+                margin-left: 2px;
+            }
+            .table > thead > tr:first-child > td,
+            .table > tbody > tr:first-child > td {
+                border: none;
+            }</style>
+
 @endsection
 @section('content')
+
     <H1> <center> Registrar Actividad de Aprendizaje + Servicio </center> </H1>
 <div class="container">
-    <form autocomplete="off" method="POST" action="{{url('/registroASP')}}" enctype="multipart/form-data">
+    <form autocomplete="off" method="POST" action="{{route('asp.store')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group row">
             <label for="inputActividad" class="col-sm-2 col-form-label">Nombre de actividad</label>
@@ -31,7 +42,7 @@
             <select class="form-control" id="asignaturasSelect" name= "asignatura_id">
                 <option value="" disabled selected> Seleccione asignatura</option>
                 @foreach($asignaturas as $asignatura)
-                    <option value="{{$asignatura->id}}">{{$asignatura->nombre_asign}},
+                    <option value="{{$asignatura->nombre_asign}}">{{$asignatura->nombre_asign}},
                     </option>
                 @endforeach
             </select>
@@ -40,11 +51,19 @@
 
 
         <div class="form-group row">
-            <label for="inputProfesor" class="col-sm-2 col-form-label">Profesor</label>
+            <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Profesor</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" name= "profesor" id="inputProfesor">
+                <select class="form-control" id="profesorSelect" name= "profesor_id">
+                    <option value="" disabled selected> Seleccione profesor</option>
+                    @foreach($profesores as $profesor)
+                        <option value="{{$profesor->nombre_profesor}}">{{$profesor->nombre_profesor}},
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
+
+
         <div class="form-group row">
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Periodo</label>
             <div class="col-sm-3">
@@ -59,6 +78,7 @@
                 </select>
             </div>
         </div>
+
         <div class="form-group row">
             <label for="inputEstudiantes" class="col-sm-2 col-form-label">Cantidad de estudiantes</label>
             <div class="col-sm-3">
@@ -67,12 +87,23 @@
             </div>
         </div>
 
+
+
         <div class="form-group row">
-            <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre socio Comunitario</label>
+            <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Nombre socio comunitario</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" name= "nombre_organizacion" id="inputOrganizacion">
+                <select class="form-control" id="organizacionesSelect" name= "organizacion_id">
+                    <option value="" disabled selected> Seleccione socio comunitario</option>
+                    @foreach($organizaciones as $socio)
+                        <option value="{{$socio->nombre}}">{{$socio->nombre}},
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
+
+
+
 
         <div class="form-group row">
             <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia</label>
@@ -80,6 +111,7 @@
                 <input type="file" class="form-control file" name="inputEvidencia" id="inputEvidencia">
             </div>
         </div>
+
         <div class="form-group row">
             <div class="col-sm-2">
         <span class="border">
@@ -108,7 +140,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                        <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
+                        <a type="button" class="btn btn-primary" href="{{route('asp.index')}}" role="button">Cancelar registro</a>
                     </div>
                 </div>
             </div>
@@ -125,7 +157,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        ¿Esta seguro que desea confirmar el registro??
+                        ¿Esta seguro que desea confirmar el registro?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
