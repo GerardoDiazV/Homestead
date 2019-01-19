@@ -28,8 +28,9 @@
 @section('content')
     <H1> <center> Registrar Actividad de Titulacion por Convenio </center> </H1>
     <div class="container">
-        <form autocomplete="off" method="POST" action="{{url('/registroTitulacion')}}" enctype="multipart/form-data">
+        <form autocomplete="off" method="POST" action="{{route('titulacion.update',$actividadTitulacion['id'])}}" enctype="multipart/form-data">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="form-group row">
                 <label for="inputActividad" class="col-sm-2 col-form-label">Titulo de actividad</label>
                 <div class="col-sm-3">
@@ -51,6 +52,15 @@
                 </div>
             </div>
 
+            <div class = "form-group row ">
+                <div class="col-sm-2 "></div>
+                <div class="col-sm-3 ">
+                    ​<figure>
+                        <img class = "img-thumbnail" src="{{$actividadTitulacion['evidencia']}}">
+                        <figcaption class="figure-caption">Evidencia actual.</figcaption>
+                    </figure>
+                </div>
+            </div>
             <div class="form-group row">
                 <label for="inputEvidencia" class="col-sm-2 col-form-label">Evidencia de formulario de inscripcion</label>
                 <div class="col-sm-3">

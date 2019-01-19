@@ -7,6 +7,7 @@ use App\Convenio;
 use App\TitulacionConvenioEstudiante;
 use App\TitulacionConvenioProfesor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TitulacionConvenioController extends Controller
 {
@@ -56,7 +57,8 @@ class TitulacionConvenioController extends Controller
         $statement = \DB::select("SHOW TABLE STATUS LIKE 'titulacion_convenios'");
         $idActividad = $statement[0]->Auto_increment;
         $filename = 'evidencia-titulacion-' . $idActividad  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
-        $file = $request->file('inputEvidencia')->storeAs('Titulacion/'.$idActividad.'/Evidencia',$filename);
+        $file = $request->file('inputEvidencia')->storeAs('public/Titulacion/'.$idActividad.'/Evidencia',$filename);
+        $evidenciaURL = \Storage::url($file);
 
         $profesores = $data['profesores'];
         $nombres = $data['nombresEstudiantes'];
@@ -67,7 +69,7 @@ class TitulacionConvenioController extends Controller
             'nombre' => $data['nombre'],
             'fecha_inicio' => $data['fechaInicio'],
             'fecha_termino' => $data['fechaTermino'],
-            'evidencia' => $file,
+            'evidencia' => $evidenciaURL,
             'convenio_id' => $data['convenio_id']
         ]);
 
@@ -89,7 +91,7 @@ class TitulacionConvenioController extends Controller
             ]);
         }
 
-        return view('menu');
+        return $this->index();
     }
 
     /**
@@ -128,9 +130,73 @@ class TitulacionConvenioController extends Controller
      * @param  \App\TitulacionConvenio  $titulacionConvenio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TitulacionConvenio $titulacionConvenio)
+    public function update(Request $request, $id)
     {
-        //
+
+        // Validacion
+        $data = request()->all();
+        $request->validate([
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
+            'fechaInicio' => 'required',
+            'fechaTermino' => 'required|after:fechaInicio',
+            'inputEvidencia' => 'required|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
+            'convenio_id' => 'required',
+            'profesores.*' => 'bail|required|regex:/^[\pL\s\-]+$/u',
+            'nombresEstudiantes.*' => 'bail|required|regex:/^[\pL\s\-]+$/u',
+            'rutsEstudiantes.*' => 'bail|required',
+            'carrerasEstudiantes.*' => 'bail|required|regex:/^[\pL\s\-]+$/u',
+        ]);
+
+        // Encontrar Objeto Actividad
+        $actividadTitulacion = TitulacionConvenio::findOrFail($id);
+
+        //Reemplazar datos
+
+        $actividadTitulacion->nombre = $data['nombre'];
+        $actividadTitulacion->fecha_inicio = $data['fechaInicio'];
+        $actividadTitulacion->fecha_termino = $data['fechaTermino'];
+        $actividadTitulacion->convenio_id = $data['convenio_id'];
+
+        //Si se ingreso evidencia nueva, borrar la antigua y subir la nueva
+
+        if(Arr::exists($data, 'inputEvidencia')){
+            //Encontrar la direcion url guardad
+            $url = $actividadTitulacion->evidencia;
+            // Transformar la direccion URL en direccion de directorio y borrar
+            $location = str_replace("/storage","public",$url);
+            \Storage::delete($location);
+
+            // Crear nuevo archivo
+            $filename = 'evidencia-titulacion-' . $id . '.' . $data['inputEvidencia']->getClientOriginalExtension();
+            $file = $request->file('inputEvidencia')->storeAs('public/Titulacion/'.$id.'/Evidencia',$filename);
+            $evidenciaURL = \Storage::url($file);
+            $actividadTitulacion->evidencia = $evidenciaURL;
+        }
+
+        $actividadTitulacion->save();
+
+        //Borrar los arreglos actuales y subirlos denuevo
+
+        $actividadTitulacion->profesores()->delete();
+        foreach ($data['profesores'] as $profesor){
+            TitulacionConvenioProfesor::create([
+                'titulacion_convenio_id' => $id,
+                'nombre_profesor' => $profesor,
+            ]);
+        }
+
+        $actividadTitulacion->estudiantes()->delete();
+        foreach ($data['nombresEstudiantes'] as $index => $code){
+            TitulacionConvenioEstudiante::create([
+                'titulacion_convenio_id' => $id,
+                'nombre' => $data['nombresEstudiantes'][$index],
+                'rut' => $data['rutsEstudiantes'][$index],
+                'carrera' => $data['carrerasEstudiantes'][$index],
+            ]);
+        }
+
+        return $this->index();
+        ////
     }
 
     /**
@@ -142,6 +208,9 @@ class TitulacionConvenioController extends Controller
     public function destroy($id)
     {
         $actividad = TitulacionConvenio::get()->find($id);
+        // Borrar Archivo
+        $directory = '/public/Titulacion/'.$id;
+        \Storage::deleteDirectory($directory);
         $actividad->delete();
         return back();
     }
