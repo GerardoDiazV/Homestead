@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\TituladoDISC;
 use Illuminate\Http\Request;
-
 class TituladoDISCController extends Controller
 {
     /**
@@ -14,7 +13,8 @@ class TituladoDISCController extends Controller
      */
     public function index()
     {
-        //
+        $indexTitulados = TituladoDISC::orderBy('id')->get();
+        return view('indexTitulados',['actividad_titulados'=>$indexTitulados]);
     }
 
     /**
@@ -24,7 +24,7 @@ class TituladoDISCController extends Controller
      */
     public function create()
     {
-        //
+        return view('registroTitulado');////
     }
 
     /**
@@ -35,7 +35,29 @@ class TituladoDISCController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->all();
+        $request->validate([
+            'nombre' =>  'required|regex:/^[\pL\s\-]+$/u',
+            'rut' => 'required|regex:/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/',
+            'telefono' => 'regex:/^(\+?56)?(\s?)(0?9)(\s?)[98765]\d{7}$/',
+            'email' => 'email',
+            'empresa'=> 'regex:/^[\pL\s\-]+$/u',
+            'titulacion_year' => 'required|numeric:4',
+            'carrera' => 'required',
+
+        ]);
+
+        TituladoDISC::create([
+            'nombre' => $data['nombre'],
+            'rut' => $data['rut'],
+            'telefono' => $data['telefono'],
+            'email' => $data['email'],
+            'empresa' => $data['empresa'],
+            'titulacion_year' => $data['titulacion_year'],
+            'carrera' => $data['carrera'],
+        ]);
+
+        return view('menu');
     }
 
     /**
@@ -55,9 +77,19 @@ class TituladoDISCController extends Controller
      * @param  \App\TituladoDISC  $tituladoDISC
      * @return \Illuminate\Http\Response
      */
-    public function edit(TituladoDISC $tituladoDISC)
+    public function edit($id)
     {
-        //
+        $registroTitulado= TituladoDISC::findOrFail($id);
+        $nombre=$registroTitulado->nombre;
+        $rut=$registroTitulado->rut;
+        $telefono=$registroTitulado->telefono;
+        $email=$registroTitulado->email;
+        $empresa=$registroTitulado->empresa;
+        $titulacion_year=$registroTitulado->titulacion_year;
+        $carrera=$registroTitulado->carrera;
+
+        return view('edicionTitulados',compact("registroTitulado", 'nombre',
+            'rut', 'telefono','email','empresa','titulacion_year','carrera'));//
     }
 
     /**
