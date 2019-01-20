@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Indicador;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class IndicadorController extends Controller
 {
+    protected $redirect;
+
+    public function __construct(Redirector $redirect)
+    {
+        $this->redirect = $redirect;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,17 @@ class IndicadorController extends Controller
      */
     public function index()
     {
+        $indicadores = Indicador::all();
+        return view('indexIndicador',['indicador' => $indicadores]);
+    }
 
+    /**
+     * Desplegar Consulta
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function consulta()
+    {
         // Todos los indicadores
         $indicadores = Indicador::all();
         $valores = [];
@@ -54,6 +72,7 @@ class IndicadorController extends Controller
      */
     public function create()
     {
+        return view('registroIndicador');
         //
     }
 
@@ -65,6 +84,27 @@ class IndicadorController extends Controller
      */
     public function store(Request $request)
     {
+        $data = request()->all();
+        $request->validate([
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
+            'descripcion' => 'required',
+            'formula' => 'required',
+            'evidencia' => 'required|regex:/^[\pL\s\-]+$/u',
+            'year_inicio' => 'required|numeric',
+            'year_termino' => 'required|numeric|gt:year_inicio',
+            'meta' => 'required|numeric'
+        ]);
+        Indicador::create([
+            'nombre' => $data['nombre'],
+            'descripcion' => $data['descripcion'],
+            'formula' => $data['formula'],
+            'tipo_evidencia' => $data['evidencia'],
+            'year_inicio' => $data['year_inicio'],
+            'year_termino' => $data['year_termino'],
+            'meta_anual' => $data['meta'],
+        ]);
+
+        return $this->redirect->route('indicador.index');
         //
     }
 
@@ -85,9 +125,10 @@ class IndicadorController extends Controller
      * @param  \App\Indicador  $indicador
      * @return \Illuminate\Http\Response
      */
-    public function edit(Indicador $indicador)
+    public function edit($id)
     {
-        //
+        $indicador = Indicador::findOrFail($id);
+        return view('edicionIndicador',compact("indicador"));//
     }
 
     /**
@@ -97,9 +138,33 @@ class IndicadorController extends Controller
      * @param  \App\Indicador  $indicador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Indicador $indicador)
+    public function update(Request $request, $id)
     {
-        //
+        $data = request()->all();
+        $request->validate([
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
+            'descripcion' => 'required',
+            'formula' => 'required',
+            'evidencia' => 'required|regex:/^[\pL\s\-]+$/u',
+            'year_inicio' => 'required|numeric',
+            'year_termino' => 'required|numeric|gt:year_inicio',
+            'meta' => 'required|numeric'
+        ]);
+
+        // Encontrar Objeto Actividad
+        $indicador = Indicador::findOrFail($id);
+
+        $indicador->nombre = $data['nombre'];
+        $indicador->descripcion = $data['descripcion'];
+        $indicador->formula = $data['formula'];
+        $indicador->tipo_evidencia = $data['evidencia'];
+        $indicador->year_inicio = $data['year_inicio'];
+        $indicador->year_termino = $data['year_termino'];
+        $indicador->meta_anual = $data['meta'];
+        $indicador->save();
+
+        return $this->redirect->route('indicador.index');
+        ////
     }
 
     /**
@@ -108,8 +173,11 @@ class IndicadorController extends Controller
      * @param  \App\Indicador  $indicador
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Indicador $indicador)
+    public function destroy($id)
     {
-        //
+        $indicador = Indicador::get()->find($id);;
+        $indicador->delete();
+        return back();
+        // //
     }
 }

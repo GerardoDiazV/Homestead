@@ -37,7 +37,9 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
             Route::resource('actividad/titulacion','TitulacionConvenioController');
 
             // Consultar Indicadores
-            Route::get('indicador','IndicadorController@index')->name('indicador.index');
+            Route::get('indicador/consulta','IndicadorController@consulta')->name('indicador.consulta');
+            Route::resource('indicador','IndicadorController');
+
         });
 
         Route::middleware(['auth','role:secretaria'])->group(function () {

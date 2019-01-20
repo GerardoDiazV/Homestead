@@ -2,6 +2,13 @@
 
 @section('title')Consultar indicadores
 @endsection
+@section('header_content')
+    <div class="top-right form-group links pr-5 ">
+            <span>
+                <a class="btn btn-secondary" href="{{route('menu')}}" role="button"><font size="5">Volver al menu</font></a>
+            </span>
+    </div>
+@endsection
 @section('content')
     <H1 class = "text-center">Consulta de Indicadores</H1>
     <div class="container">
@@ -33,18 +40,20 @@
             </thead>
             <tbody>
             @foreach($indicadores as $key => $indicador)
-                <tr>
-                    <th scope="row">{{$indicador['id']}}</th>
-                    <td>{{$indicador['nombre']}}</td>
-                    @foreach($años as $año)
-                        @if((($valores[$key])[$año])[2] == 'G')
-                            <td class = "table-success text-center">{{(($valores[$key])[$año])[0]}}</td>
-                        @else
-                            <td class = "table-danger text-center">{{(($valores[$key])[$año])[0]}}</td>
-                        @endif
-                        <td class = "text-center">{{(($valores[$key])[$año])[1]}}</td>
-                    @endforeach
-                </tr>
+                @if($indicador['meta_anual'] == null)
+                    <tr>
+                        <th scope="row">{{$indicador['id']}}</th>
+                        <td>{{$indicador['nombre']}}</td>
+                        @foreach($años as $año)
+                            @if((($valores[$key])[$año])[2] == 'G')
+                                <td class = "table-success text-center">{{(($valores[$key])[$año])[0]}}</td>
+                            @else
+                                <td class = "table-danger text-center">{{(($valores[$key])[$año])[0]}}</td>
+                            @endif
+                            <td class = "text-center">{{(($valores[$key])[$año])[1]}}</td>
+                        @endforeach
+                    </tr>
+                @endif
             @endforeach
 
             </tbody>

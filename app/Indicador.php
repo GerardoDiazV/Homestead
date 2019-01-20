@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Indicador extends Model
 {
     protected $fillable = [
-        'nombre', 'year_inicio','year_termino','descripcion','formula','tipo_evidencia'
+        'nombre', 'year_inicio','year_termino','descripcion','formula','tipo_evidencia','meta_anual'
     ]; //
 
 

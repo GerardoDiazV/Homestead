@@ -22,6 +22,7 @@ class CreateIndicadorsTable extends Migration
             $table->string('descripcion',500);
             $table->string('formula');
             $table->string('tipo_evidencia');
+            $table->integer('meta_anual')->nullable();
         });
     }
 
