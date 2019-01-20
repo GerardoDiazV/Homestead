@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organizacion extends Model
 {
     protected $fillable = [
-        'nombre', 'email',
+        'nombre', 'email'
     ]; //
 
     public function convenios(){

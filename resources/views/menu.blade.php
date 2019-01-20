@@ -44,6 +44,7 @@
             @endif
             @if (Auth::user()->hasAnyRole(['encargado', 'secretaria']))
                 <a class="btn btn-primary btn-block " href="{{route('titulacion.index')}}" role="button"><font size="5">Administrar actividades de titulacion por convenio</font></a>
+                    <a class="btn btn-primary btn-block " href="{{route('indicador.index')}}" role="button"><font size="5">Consultar estado de indicadores</font></a>
             @endif
         </div>
 
