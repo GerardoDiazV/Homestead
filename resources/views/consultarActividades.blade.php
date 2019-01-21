@@ -2,6 +2,13 @@
 
 @section('title')Consultar actividades de vinculacion
 @endsection
+@section('header_content')
+    <div class="top-right form-group links pr-5 ">
+            <span>
+                <a class="btn btn-secondary" href="{{route('menu')}}" role="button"><font size="5">Volver al menu</font></a>
+            </span>
+    </div>
+@endsection
 @section('content')
     <H1 class = "text-center">Consulta de actividades de vinculación</H1>
     <div class="container">
@@ -38,7 +45,7 @@
                 </div>
                 <div class = "justify-content-between form-group row pl-3 pr-3">
                     <button type="button" class="btn btn-secondary">Generar Informe</button>
-                    <button type="button" class="btn btn-secondary">Filtrar</button>
+                    <button id = "filtrar1" type="button" class="btn btn-secondary">Filtrar</button>
                 </div>
             </div>
             <div class="card-body">
@@ -101,24 +108,27 @@
                 <h5 class="card-title">Panel de Titulados</h5>
                 <div class = "justify-content-between form-group row">
                     <div class = "col-sm-4">
-                        <label for = "exampleFormControlSelect1" class="col-form-label-sm pr-5">Carrera:</label>
-                        <select class="form-control-sm col-sm-7" id="exampleFormControlSelect1" style="width: 18rem;">
+                        <label for = "carreraSelect" class="col-form-label-sm pr-5">Carrera:</label>
+                        <select class="form-control-sm col-sm-7" id="carreraSelect" style="width: 18rem;">
                             <option>Todas</option>
-                            <option>Extension</option>
-                            <option>Aprendizaje + Servicio</option>
-                            <option>Titulacion por convenio</option>
+                            <option>ICCI</option>
+                            <option>IECI</option>
                         </select>
                     </div>
                     <div class = "col-sm-8 row">
-                        <label class="col-form-label-sm pr-5">Rango de Fechas:</label>
+                        <label class="col-form-label-sm pr-5">Rango de años:</label>
                         <div class="col-sm-1">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
                         </div>
                         <div class="col-sm-4">
-                            <input placeholder = "Desde" id="datepicker3" onkeydown="return false" class="date" name = "fechaInicio"/>
+                            <input placeholder = "Ingrese año inferior" type="number" class="form-control"  id="fechaLow"
+                                   min = 1 onkeypress='return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57'
+                                   >
                         </div>
                         <div class="col-sm-4">
-                            <input placeholder = "Hasta" id="datepicker4" onkeydown="return false" class="date" name = "fechaTermino"/>
+                            <input placeholder = "Ingrese año superior" type="number" class="form-control"  id="fechaTop"
+                                   min = 1 onkeypress='return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57'
+                            >
                         </div>
                     </div>
                 </div>
@@ -127,44 +137,28 @@
                 </div>
                 <div class = "justify-content-between form-group row pl-3 pr-3">
                     <button type="button" class="btn btn-secondary">Generar Informe</button>
-                    <button type="button" class="btn btn-secondary">Filtrar</button>
+                    <button id = "filtrar2" type="button" class="btn btn-secondary">Filtrar</button>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table id= "tituladosTable" class="table">
                     <thead class="thead-light">
                     <tr>
                         <th scope="col">Nombre Estudiante</th>
                         <th scope="col">RUT</th>
+                        <th scope="col">Año de titulacion</th>
                         <th scope="col">Carrera</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">Mark</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                    @foreach($titulados as $titulado)
+                        <tr>
+                            <th scope="row">{{$titulado->nombre}}</th>
+                            <td>{{$titulado->rut}}</td>
+                            <td>{{$titulado->titulacion_year}}</td>
+                            <td>{{$titulado->carrera}}</td>
                         </tr>
-                    <tr>
-                        <th scope="row">Jacob</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Larry</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Mark</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Jacob</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                    </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -201,6 +195,44 @@
                 format: 'yyyy-mm-dd',
                 uiLibrary: 'bootstrap4'
             });
+
+            $('#filtrar2').click(function() {
+                var input, filter, table, tr, td, i, txtValue,fechaLow,fechaTop, intValue;
+                input = document.getElementById("carreraSelect");
+                filter = input.value.toUpperCase();
+                fechaLow = Number(document.getElementById('fechaLow').value);
+                fechaTop = Number(document.getElementById('fechaTop').value);
+                table = document.getElementById("tituladosTable");
+                tr = table.getElementsByTagName("tr");
+                // Filtrar por carrera
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    td2 = tr[i].getElementsByTagName("td")[2];
+                    if (td2) {
+                        txtValue = td2.textContent || td2.innerText;
+                        if ((txtValue.toUpperCase().indexOf(filter) > -1) || filter == "TODAS" ){
+                            // Checkeo Fecha
+                            if(document.getElementById("defaultCheck2").checked){
+                                txtValue = td.textContent || td.innerText;
+                                intValue = Number(txtValue);
+                                if (intValue > fechaLow && intValue < fechaTop){
+                                    tr[i].style.display = "";
+                                }else{
+                                    tr[i].style.display = "none";
+                                }
+                            }else{
+                                tr[i].style.display = "";
+                            }
+
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                //Filtrar por fecha
+
+            });
+
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

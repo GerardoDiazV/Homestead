@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comentario;
+use App\TituladoDISC;
 use Illuminate\Http\Request;
 
 class ConsultarActividadesController extends Controller
@@ -24,7 +25,10 @@ class ConsultarActividadesController extends Controller
      */
     public function create()
     {
-        return view('consultarActividades');//
+
+        $titulados = TituladoDISC::all();
+
+        return view('consultarActividades',compact('titulados'));//
         //
     }
 

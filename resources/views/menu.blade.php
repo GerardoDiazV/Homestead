@@ -14,7 +14,7 @@
     <form autocomplete="off" method="GET" action="{{route('logout')}}" enctype="multipart/form-data">
         <div class="top-right form-group links">
             <span>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmSubmitModal" >Cerrar Sesión</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#confirmSubmitModal" >Cerrar Sesión</button>
             </span>
         </div>
         <div class="modal fade" id="confirmSubmitModal" tabindex="-1" role="dialog" aria-labelledby="confirmSubmitModal" aria-hidden="true">
@@ -38,15 +38,16 @@
         </div>
         <div class="container ancho p-5">
             @if (Auth::user()->hasAnyRole(['encargado', 'secretaria','user']))
-            <a class="btn btn-primary btn-block " href="{{route('convenio.index')}}" role="button"><font size="5">Administrar Convenios de Colaboración</font></a>
-            <a class="btn btn-primary btn-block " href="{{route('asp.index')}}" role="button"><font size="5">Administrar  Actividad de Aprendizaje + Servicios</font></a>
-            <a class="btn btn-primary btn-block " href="{{route('extension.index')}}" role="button"><font size="5">Administrar Actividad de Extensión</font></a>
-            <a class="btn btn-primary btn-block " href="{{route('titulados.index')}}" role="button"><font size="5">Administrar Titulados</font></a>
+            <a class="btn btn-secondary btn-block " href="{{route('convenio.index')}}" role="button"><font size="5">Administrar Convenios de Colaboración</font></a>
+            <a class="btn btn-secondary btn-block " href="{{route('asp.index')}}" role="button"><font size="5">Administrar  Actividad de Aprendizaje + Servicios</font></a>
+            <a class="btn btn-secondary btn-block " href="{{route('extension.index')}}" role="button"><font size="5">Administrar Actividad de Extensión</font></a>
+            <a class="btn btn-secondary btn-block " href="{{route('titulados.index')}}" role="button"><font size="5">Administrar Titulados</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('consultar.create')}}" role="button"><font size="5">Consultar actividades de vinculacion</font></a>
             @endif
             @if (Auth::user()->hasAnyRole(['encargado', 'secretaria']))
-                <a class="btn btn-primary btn-block " href="{{route('titulacion.index')}}" role="button"><font size="5">Administrar actividades de titulacion por convenio</font></a>
-                    <a class="btn btn-primary btn-block " href="{{route('indicador.consulta')}}" role="button"><font size="5">Consultar estado de indicadores</font></a>
-                    <a class="btn btn-primary btn-block " href="{{route('indicador.index')}}" role="button"><font size="5">Administrar indicadores</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('titulacion.index')}}" role="button"><font size="5">Administrar actividades de titulacion por convenio</font></a>
+                    <a class="btn btn-secondary btn-block " href="{{route('indicador.consulta')}}" role="button"><font size="5">Consultar estado de indicadores</font></a>
+                    <a class="btn btn-secondary btn-block " href="{{route('indicador.index')}}" role="button"><font size="5">Administrar indicadores</font></a>
             @endif
         </div>
 

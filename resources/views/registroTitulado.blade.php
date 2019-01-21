@@ -32,7 +32,7 @@
             <div class="form-group row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre Titulado</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "nombre" id="inputNombre">
+                    <input value = "{{old('nombre')}}" type="text" class="form-control" name= "nombre" id="inputNombre">
                 </div>
             </div>
 
@@ -40,35 +40,35 @@
             <div class="form-group row">
                 <label for="inputRut" class="col-sm-2 col-form-label">Rut</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "rut" id="inputRut">
+                    <input value = "{{old('rut')}}"type="text" class="form-control" name= "rut" id="inputRut">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputTelefono" class="col-sm-2 col-form-label">Telefono</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "telefono" id="inputTelefono">
+                    <input value = "{{old('telefono')}}"type="text" class="form-control" name= "telefono" id="inputTelefono">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputemail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "email" id="inputEmail">
+                    <input value = "{{old('email')}}"type="text" class="form-control" name= "email" id="inputEmail">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputEmpresa" class="col-sm-2 col-form-label">Nombre Empresa</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "empresa" id="inputEmpresa">
+                    <input value = "{{old('empresa')}}"type="text" class="form-control" name= "empresa" id="inputEmpresa">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="inputAnio" class="col-sm-2 col-form-label">Año de Titulación</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name= "titulacion_year" id="inputAnio">
+                    <input value = "{{old('titulacion_year')}}" type="text" class="form-control" name= "titulacion_year" id="inputAnio">
                 </div>
             </div>
 
