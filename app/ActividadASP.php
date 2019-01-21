@@ -8,10 +8,14 @@ class ActividadASP extends Model
 {
 
     protected $fillable = [
-        'nombre', 'asignatura', "profesor", "cant_estudiantes", "periodo","evidencia"
+        'asignatura', "profesor", "cant_estudiantes", "periodo",
     ]; //
     //
-    public function actividadesASPOrganizacion(){
-        return $this->belongsToMany('App\Organizacion','actividad_a_s_p__organizacions','actividadasp_id','organizacion_id');
+    public function organizaciones(){
+        return $this->belongsToMany('App\Organizacion','actividad_a_s_p__organizacions','actividadasp_id','organizacion_id')->withPivot('actividadasp_id', 'organizacion_id','evidencia');;
+    }
+
+    public function profesores(){
+        return $this->hasMany('App\ActividadASPProfesor','actividad_asp_id','id');
     }
 }

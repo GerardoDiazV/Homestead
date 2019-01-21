@@ -11,6 +11,10 @@ class Organizacion extends Model
     ]; //
 
     public function convenios(){
+        return $this->hasMany('App\ActividadASP','actividad_a_s_p__organizacions','actividadasp_id','organizacion_id');
+    }
+
+    public function actividadesASP(){
         return $this->belongsToMany('App\ActividadASP','actividad_a_s_p__organizacions','actividadasp_id','organizacion_id');
     }
 }

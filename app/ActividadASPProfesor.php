@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ActividadASP_Organizacion extends Model
+class ActividadASPProfesor extends Model
 {
     protected $fillable = [
-        "actividadasp_id", "organizacion_id","evidencia"
+        'actividad_asp_id', "nombre_profesor"
     ]; //
 }

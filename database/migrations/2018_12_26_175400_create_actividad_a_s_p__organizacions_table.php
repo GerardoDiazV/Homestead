@@ -18,6 +18,7 @@ class CreateActividadASPOrganizacionsTable extends Migration
             $table->foreign('actividadasp_id')->references('id')->on('actividad_a_s_ps');
             $table->unsignedInteger('organizacion_id');
             $table->foreign('organizacion_id')->references('id')->on('organizacions');
+            $table->string('evidencia');
             $table->timestamps();
         });
     }

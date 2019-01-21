@@ -26,7 +26,12 @@ class DatabaseSeeder extends Seeder
             'role_user',
             'titulacion_convenios',
             'titulacion_convenio_estudiantes',
-            'titulacion_convenio_profesors'
+            'titulacion_convenio_profesors',
+            'profesors',
+            'asignaturas',
+            'indicadors',
+            'metas',
+            'progresos'
 
         ]);
 
@@ -43,7 +48,6 @@ class DatabaseSeeder extends Seeder
             AsignaturaSeeder::class,
             TitulacionConvenioSeeder::class,
             ActividadASPOrganizacionSeeder::class,
-            AsignaturaSeeder::class,
             TitulacionConvenioSeeder::class,
             ProfesorSeeder::class,
             IndicadorSeeder::class,

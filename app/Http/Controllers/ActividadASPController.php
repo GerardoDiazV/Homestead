@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\ActividadASP;
+use App\ActividadASPProfesor;
 use App\Organizacion;
 use App\Asignatura;
 use App\ActividadASP_Organizacion;
 use App\Profesor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use function PHPSTORM_META\type;
 
 class ActividadASPController extends Controller
 {
@@ -47,33 +50,48 @@ class ActividadASPController extends Controller
 
         $data = request()->all();
         $request->validate([
-            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'nombre_asign' => 'required',
-            'nombre_profesor' => 'required',
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
-            'organizacion_id' => 'required',
-            'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
+            'nombre_profesor' => 'required',
+            'nombre_profesor.*' => 'required',
+            'organizacion_id.*' => 'required',
+            'inputEvidencia.*' => 'required|required_with:organizacion_id.*|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
 
         ]);
-
-        $file = $request->file('inputEvidencia')->store('Evidencias');
+        $statement = \DB::select("SHOW TABLE STATUS LIKE 'actividad_a_s_ps'");
+        $idActividad = $statement[0]->Auto_increment;
+        // Uploading every file
+        foreach($data['inputEvidencia'] as $key => $evidencia){
+            $filename = 'evidencia-asp-' . $idActividad  .'-'. ($key+1). '.' . $evidencia->getClientOriginalExtension();
+            $file = $evidencia->storeAs('public/AprendisajeServicio/'.$idActividad.'/Evidencia',$filename);
+            $evidenciaURL = \Storage::url($file);
+            $evidenciasURLS[] = $evidenciaURL;
+        }
 
         ActividadASP::create([
-            'nombre' => $data['nombre'],
             'asignatura' => $data['nombre_asign'],
-            'profesor' => $data['nombre_profesor'],
             'periodo' => $data['periodo'],
             'cant_estudiantes' => $data['cant_estudiantes'],
-            'evidencia' => $file,
+            'periodo' => $data['periodo']
         ]);
-        $socioComunitario = $data['organizacion_id'];
-        $organizacionId = Organizacion::where('nombre',$socioComunitario)->first()->id;
-        $actividadId = ActividadASP::where('nombre',$request->nombre)->first()->id;
-        ActividadASP_Organizacion::create([
-            'actividadasp_id' => $actividadId,
-            'organizacion_id' => $organizacionId,
-        ]);
+
+
+        $idActividad = ActividadASP::latest()->first()->id;
+
+        foreach ($data['nombre_profesor'] as $profesor){
+            ActividadASPProfesor::create([
+                'actividad_asp_id' => $idActividad,
+                'nombre_profesor' => $profesor,
+            ]);
+        }
+        foreach($evidenciasURLS as $key => $URLEVI){
+            ActividadASP_Organizacion::create([
+                'actividadasp_id' => $idActividad,
+                'organizacion_id' => (($data['organizacion_id'])[$key]),
+                'evidencia' => $URLEVI,
+            ]);
+        }
 
         return view('menu');
         //
@@ -99,13 +117,17 @@ class ActividadASPController extends Controller
     public function edit($id)
     {
         $actividadASP= ActividadASP::findOrFail($id);
-
-        $asignaturas = Asignatura::all();
-        $organizaciones= Organizacion::all();
-        $profesores= Profesor::all();
-
-
-        return view('edicionASP',compact("actividadASP",'asignaturas','organizaciones','profesores'));
+        $organizacionesMine = $actividadASP->organizaciones()->get();
+        $contOrganizaciones = $organizacionesMine->count();
+        foreach($organizacionesMine as $org){
+            $evidencias[] =  $org->pivot->evidencia;
+        }
+        $profesoresMine = $actividadASP->profesores()->get();
+        $contProfesores = $profesoresMine->count();
+        $asignaturas = Asignatura::orderBy('nombre_asign')->get();
+        $organizaciones= Organizacion::OrderBy('nombre')->get();
+        $profesores= Profesor::OrderBy('nombre_profesor')->get();
+        return view('edicionASP',compact("actividadASP",'evidencias','organizaciones','organizacionesMine','contOrganizaciones','profesores','profesoresMine','contProfesores','asignaturas'));
 
     }
 
@@ -120,56 +142,67 @@ class ActividadASPController extends Controller
     {
         $data = request()->all();
         $request->validate([
-            'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'nombre_asign' => 'required',
-            'nombre_profesor' => 'required',
             'periodo' => 'required',
             'cant_estudiantes'=> 'required',
-            'organizacion_id' => 'required',
-            'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
+            'nombre_profesor' => 'required',
+            'nombre_profesor.*' => 'required',
+            'organizacion_id.*' => 'required',
+            'inputEvidencia.*' => 'required|required_with:organizacion_id.*|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
 
         ]);
         $actividadASP= ActividadASP::findOrFail($id);
 
-        $socioComunitario = $data['organizacion_id'];
-        $organizacionId = Organizacion::where('nombre',$socioComunitario)->first()->id;
-        $actividadId = ActividadASP::where('nombre',$request->nombre)->first()->id;
-
-        $actividadASP->nombre = $data['nombre'];
-        $actividadASP->asignatura_id = $data['nombre_asign'];
-        $actividadASP->profesor = $data['nombre_profesor'];
+        $actividadASP->asignatura= $data['nombre_asign'];
         $actividadASP->periodo = $data['periodo'];
         $actividadASP->cant_estudiantes = $data['cant_estudiantes'];
 
+        //Borrar los arreglos actuales y subirlos denuevo
 
-        if(Arr::exists($data, 'inputEvidencia')){
-
-            //Encontrar la direcion url guardad
-            $url = $actividadASP->evidencia;
-            // Transformar la direccion URL en direccion de directorio y borrar
-            $location = str_replace("/storage","public",$url);
-            \Storage::delete($location);
-
-            // Crear nuevo archivo
-            $filename = 'evidencia-extension-' . $id  . '.' . $data['inputEvidencia']->getClientOriginalExtension();
-            $file = $request->file('inputEvidencia')->storeAs('public/Extension/'.$id.'/Evidencia',$filename);
-            $evidenciaURL = \Storage::url($file);
-            $actividadASP->evidencia = $evidenciaURL;
-        }
-
-        $actividadASP->save();
-
-        //Se debe eliminar la tabla que relaciona ASP con la organizacion
-
-        $actividadASP->socio()->delete();
-        foreach ($data['organizacion_id'] as $index => $code){
-            actividadesASPOrganizacion()::create([
-                'actividadasp_id' => $id,
-                'organizacion_id' => $data['organizacion_id'][$index],
+        $actividadASP->profesores()->delete();
+        foreach ($data['nombre_profesor'] as $profesor){
+            ActividadASPProfesor::create([
+                'actividad_asp_id' => $id,
+                'nombre_profesor' => $profesor,
             ]);
         }
 
+        //Borrar el listado de fotos y subirlo denuevo
 
+        $contEvidencias = 0;
+        // Borrar Archivos antiguos basandose en sus direcciones
+
+        // Borrar las Relaciones a la tabla fotografias
+        if(Arr::exists($data, 'inputEvidencia')) {
+            $organizacionesMine = $actividadASP->organizaciones()->get();
+            foreach($organizacionesMine as $org){
+                $evidencias[] =  $org->pivot->evidencia;
+                //Encontrar la direcion url guardada
+                $url = $org->pivot->evidencia;
+                // Transformar la direccion URL en direccion de directorio y borrar
+                $location = str_replace("/storage","public",$url);
+                \Storage::delete($location);
+            }
+
+            $actividadASP->organizaciones()->detach();
+            // Re subir los archivos
+
+            foreach ($data['inputEvidencia'] as $key => $evidencia) {
+                $filename = 'evidencia-asp-' . $id . '-' . ($key + 1) . '.' . $evidencia->getClientOriginalExtension();
+                $file = $evidencia->storeAs('public/AprendisajeServicio/' . $id . '/Evidencia', $filename);
+                $evidenciaURL = \Storage::url($file);
+                $evidenciasURLS[] = $evidenciaURL;
+            }
+
+            foreach ($evidenciasURLS as $key => $URLEVI) {
+                ActividadASP_Organizacion::create([
+                    'actividadasp_id' => $id,
+                    'organizacion_id' => (($data['organizacion_id'])[$key]),
+                    'evidencia' => $URLEVI,
+                ]);
+            }
+        }
+        $actividadASP->save();
 
 
         return $this->index();
@@ -185,10 +218,11 @@ class ActividadASPController extends Controller
     public function destroy($id)
     {
         $actividad = ActividadASP::get()->find($id);
-        $actividad->actividadesASPOrganizacion()->detach();
+        $directory = '/public/AprendisajeServicio/'.$id;
+        \Storage::deleteDirectory($directory);
+        $actividad->organizaciones()->detach();
         $actividad->delete();
         return back();
-
     }
 
 

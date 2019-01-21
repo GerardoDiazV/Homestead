@@ -43,6 +43,7 @@ class TitulacionConvenioController extends Controller
     {
 
         $data = request()->all();
+        dd($data);
         $request->validate([
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'fechaInicio' => 'required',

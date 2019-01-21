@@ -15,12 +15,9 @@ class CreateActividadASPsTable extends Migration
     {
         Schema::create('actividad_a_s_ps', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
             $table->string('asignatura');
-            $table->string('profesor');
             $table->string('periodo');
-            $table->unsignedInteger(('cant_estudiantes'));
-            $table->string('evidencia');
+            $table->unsignedInteger('cant_estudiantes');
             $table->timestamps();
         });//
     }

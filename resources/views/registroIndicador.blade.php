@@ -26,7 +26,7 @@
     @endif
 @endsection
 @section('content')
-    <H1> <center> Registrar Actividad de Extension </center></H1>
+    <H1> <center> Registrar Indicador </center></H1>
     <div class="container">
         <form autocomplete="off" method="POST" action="{{route('indicador.store')}}" enctype="multipart/form-data">
             {{ csrf_field() }}

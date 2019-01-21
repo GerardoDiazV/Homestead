@@ -40,7 +40,7 @@
             <thead>
             <tr>
                 <th class="text-center">ID</th>
-                <th class="text-center">Titulo de Actividad</th>
+                <th class="text-center">Asignatura</th>
                 <th class="text-center">Acciones</th>
             </tr>
             </thead>
@@ -53,7 +53,7 @@
 
                 <tr>
                     <td class="text-center" id="{{ $item->id }}">{{ $item->id }}</td>
-                    <td class="text-left">{{ $item->nombre }}</td>
+                    <td class="text-left">{{ $item->asignatura }}</td>
                     <td class="text-center" width="20%">
                         <div class = "btn-group">
                             <form action="{{route('asp.destroy',$item->id)}}" method="POST">

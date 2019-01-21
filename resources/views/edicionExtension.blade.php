@@ -95,7 +95,7 @@
                     @foreach($fotografias as $key => $foto)
                         <tr>
                             <th scope="row">{{$nombresFotos[$key]}}</th>
-                            <td><img class=" col-sm-2 img-thumbnail" src="{{$foto['fotografia']}}"</td>
+                            <td><img class=" col-sm-2 img-thumbnail" src="{{$foto['fotografia']}}"></td>
                         </tr>
                     @endforeach
                     </tbody>
