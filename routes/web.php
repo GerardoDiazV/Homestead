@@ -39,11 +39,12 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
             Route::get('indicador/consulta','IndicadorController@consulta')->name('indicador.consulta');
             Route::resource('indicador','IndicadorController');
 
+            Route::resource('actividad/titulados','TituladoDISCController');
+
         });
 
         Route::middleware(['auth','role:secretaria'])->group(function () {
             //Administracion de Registro de Titulados
-            Route::resource('actividad/titulados','TituladoDISCController');
         });
 
 

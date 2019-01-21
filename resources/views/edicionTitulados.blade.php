@@ -80,8 +80,16 @@
                 <div class="col-sm-3">
                     <select class="form-control" name = "carrera" id="exampleFormControlSelect1">
                         <option value="" disabled selected> Seleccione Carrera</option>
-                        <option>ICCI</option>
-                        <option>IECI</option>
+                        @if($registroTitulado['carrera']=='ICCI')
+                            <option selected>ICCI</option>
+                        @else
+                            <option>ICCI</option>
+                        @endif
+                        @if($registroTitulado['carrera']=='IECI')
+                            <option selected>IECI</option>
+                        @else
+                            <option>IECI</option>
+                        @endif
                     </select>
                 </div>
             </div>
