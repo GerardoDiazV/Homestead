@@ -57,7 +57,7 @@ class TituladoDISCController extends Controller
             'carrera' => $data['carrera'],
         ]);
 
-        return view('menu');
+        return $this->index();
     }
 
     /**
