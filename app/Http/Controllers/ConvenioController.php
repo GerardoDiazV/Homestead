@@ -50,7 +50,7 @@ class ConvenioController extends Controller
         $this->validate(request(),[
             'tipo_convenio' => 'required',
             'fecha_inicio' => 'required',
-            'fecha_termino' => 'required',
+            'fecha_termino' => 'required|after:fecha_inicio',
             'inputEvidencia' => 'required|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
             'convenio_id' => 'required',
         ]);
@@ -121,7 +121,7 @@ class ConvenioController extends Controller
         $this->validate(request(),[
             'tipo_convenio' => 'required',
             'fecha_inicio' => 'required',
-            'fecha_termino' => 'required',
+            'fecha_termino' => 'required|after:fecha_inicio',
             'inputEvidencia' => 'required|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
             'convenio_id' => 'required',
         ]);
