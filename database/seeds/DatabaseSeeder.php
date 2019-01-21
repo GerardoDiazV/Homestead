@@ -45,7 +45,10 @@ class DatabaseSeeder extends Seeder
             ActividadASPOrganizacionSeeder::class,
             AsignaturaSeeder::class,
             TitulacionConvenioSeeder::class,
-            ProfesorSeeder::class
+            ProfesorSeeder::class,
+            IndicadorSeeder::class,
+            MetaSeeder::class,
+            ProgresoSeeder::class,
         ]);
     }
 

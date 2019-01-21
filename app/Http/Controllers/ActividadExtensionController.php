@@ -9,10 +9,20 @@ use App\ActividadExtensionFotografia;
 use App\Http\Controllers;
 use App\Convenio;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
 
 class ActividadExtensionController extends Controller
 {
+
+    protected $redirect;
+
+    public function __construct(Redirector $redirect)
+    {
+        $this->redirect = $redirect;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -103,7 +113,7 @@ class ActividadExtensionController extends Controller
                 'fotografia' => $fotografiaURL,
             ]);
         }
-        return $this->index();
+        return $this->redirect->route('extension.index');
         //
     }
 

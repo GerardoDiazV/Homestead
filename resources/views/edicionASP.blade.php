@@ -31,11 +31,16 @@
             <div class="form-group row">
                 <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Asignatura</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="asignaturasSelect" name= "nombre_asign" value="{{ $actividadASP['asignatura'] }}">
-                        <option value="" disabled selected> Seleccione asignatura</option>
+                    <select class="form-control" id="asignaturasSelect" name= "nombre_asign" >
+                        <option value="">Seleccione Asignatura</option>
                         @foreach($asignaturas as $asignatura)
-                            <option value="{{$asignatura->id}}">{{$asignatura->nombre_asign}},
-                            </option>
+                            @if($asignatura->nombre_asign == $actividadASP['asignatura'])
+                            <option value="{{$asignatura->nombre_asign}}"selected>Asignatura: {{$asignatura->nombre_asign}}
+                                @else
+                                <option value="{{$asignatura->nombre_asign}}">{{$asignatura->nombre_asign}}
+                                </option>
+                                @endif
+                                </option>
                         @endforeach
                     </select>
                 </div>
@@ -46,21 +51,25 @@
                 <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Profesor</label>
                 <div class="col-sm-3">
                     <select class="form-control" id="profesorSelect" name= "nombre_profesor">
-                        <option value="" disabled selected> Seleccione profesor</option>
+                        <option value=""> Seleccione profesor</option>
                         @foreach($profesores as $profesor)
-                            <option value="{{$profesor->nombre_profesor}}">{{$profesor->nombre_profesor}},
-                            </option>
+                            @if($profesor->nombre_profesor == $actividadASP['profesor'])
+                            <option value="{{$profesor->nombre_profesor}}"selected>{{$profesor->nombre_profesor}}
+                                @else
+                                <option value="{{$profesor->nombre_profesor}}">{{$profesor->nombre_profesor}}
+                                </option>
+                                @endif
+                                </option>
                         @endforeach
                     </select>
                 </div>
             </div>
 
-
             <div class="form-group row">
                 <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Periodo</label>
                 <div class="col-sm-3">
-                    <select class="form-control" name = "periodo" id="exampleFormControlSelect1" value="{{ $actividadASP['periodo'] }}">
-                        <option value="" disabled selected> Seleccione año/semestre</option>
+                    <select class="form-control" name = "periodo" id="exampleFormControlSelect1">
+                        <option value=""selected > {{$actividadASP->periodo}}</option>
                         <option>2018-2</option>
                         <option>2018-1</option>
                         <option>2017-2</option>
@@ -70,6 +79,7 @@
                     </select>
                 </div>
             </div>
+
             <div class="form-group row">
                 <label for="inputEstudiantes" class="col-sm-2 col-form-label">Cantidad de estudiantes</label>
                 <div class="col-sm-3">
@@ -81,11 +91,16 @@
             <div class="form-group row">
                 <label for="exampleFormControlSelect1"class="col-sm-2 col-form-label">Nombre socio comunitario</label>
                 <div class="col-sm-3">
-                    <select class="form-control" id="organizacionesSelect" name= "organizacion_id" value="{{ $actividadASP['organizacion_id'] }}">
+                    <select class="form-control" id="organizacionesSelect" name= "organizacion_id">
                         <option value="" disabled selected> Seleccione socio comunitario</option>
                         @foreach($organizaciones as $socio)
-                            <option value="{{$socio->nombre}}">{{$socio->nombre}},
+                            @if($socio->organizacion_id == $actividadASP['organizacion_id'])
+                                <option value="{{$socio->nombre}}"selected>{{$socio->nombre}}
+                            @else
+                            <option value="{{$socio->nombre}}">{{$socio->nombre}}
                             </option>
+                                @endif
+                                </option>
                         @endforeach
                     </select>
                 </div>

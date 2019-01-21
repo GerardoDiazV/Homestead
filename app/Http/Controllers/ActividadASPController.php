@@ -100,12 +100,12 @@ class ActividadASPController extends Controller
     {
         $actividadASP= ActividadASP::findOrFail($id);
 
-        $asignaturas = Asignatura::orderBy('nombre_asign')->get();
-        $organizaciones= Organizacion::OrderBy('nombre')->get();
-        $profesores= Profesor::OrderBy('nombre_profesor')->get();
+        $asignaturas = Asignatura::all();
+        $organizaciones= Organizacion::all();
+        $profesores= Profesor::all();
 
 
-        return view('edicionASP',['asignaturas'=> $asignaturas,'organizaciones'=>$organizaciones,'profesores'=>$profesores],compact("actividadASP"));
+        return view('edicionASP',compact("actividadASP",'asignaturas','organizaciones','profesores'));
 
     }
 
@@ -129,23 +129,18 @@ class ActividadASPController extends Controller
             'inputEvidencia' => 'nullable|file|image|mimes:jpeg,png,gif,webp,pdf|max:2048',
 
         ]);
-
+        $actividadASP= ActividadASP::findOrFail($id);
 
         $socioComunitario = $data['organizacion_id'];
         $organizacionId = Organizacion::where('nombre',$socioComunitario)->first()->id;
         $actividadId = ActividadASP::where('nombre',$request->nombre)->first()->id;
-        ActividadASP_Organizacion::create([
-            'actividadasp_id' => $actividadId,
-            'organizacion_id' => $organizacionId,
-        ]);
-
-        $actividadASP= ActividadASP::findOrFail($id);
 
         $actividadASP->nombre = $data['nombre'];
         $actividadASP->asignatura_id = $data['nombre_asign'];
         $actividadASP->profesor = $data['nombre_profesor'];
         $actividadASP->periodo = $data['periodo'];
         $actividadASP->cant_estudiantes = $data['cant_estudiantes'];
+
 
         if(Arr::exists($data, 'inputEvidencia')){
 
@@ -163,6 +158,20 @@ class ActividadASPController extends Controller
         }
 
         $actividadASP->save();
+
+        //Se debe eliminar la tabla que relaciona ASP con la organizacion
+
+        $actividadASP->socio()->delete();
+        foreach ($data['organizacion_id'] as $index => $code){
+            actividadesASPOrganizacion()::create([
+                'actividadasp_id' => $id,
+                'organizacion_id' => $data['organizacion_id'][$index],
+            ]);
+        }
+
+
+
+
         return $this->index();
 
     }

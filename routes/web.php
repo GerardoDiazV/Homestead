@@ -29,10 +29,16 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
         //Administracion de Actividades de Aprendizaje + Servicios (A+S)
         Route::resource('actividad/asp','ActividadASPController');
         // Consultar Actividades de vinculacion
-        Route::get('/actividad/consultar','ConsultarActividadesController@create')->name('consultar.create');
+        Route::get('actividad/consultar','ConsultarActividadesController@create')->name('consultar.create');
         Route::middleware(['auth', 'role:encargado' || 'role:secretaria'])->group(function () {
+
             //Administracion de Actividades de Titulacion por Convenio
             Route::resource('actividad/titulacion','TitulacionConvenioController');
+
+            // Consultar Indicadores
+            Route::get('indicador/consulta','IndicadorController@consulta')->name('indicador.consulta');
+            Route::resource('indicador','IndicadorController');
+
         });
 
         Route::middleware(['auth','role:secretaria'])->group(function () {
