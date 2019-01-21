@@ -8,6 +8,14 @@
                 <a class="btn btn-secondary" href="{{route('menu')}}" role="button"><font size="5">Volver al menu</font></a>
             </span>
     </div>
+    <style>
+        .table-wrapper-scroll-y {
+            display: block;
+            max-height: 450px;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+    </style>
 @endsection
 @section('content')
     <H1 class = "text-center">Consulta de actividades de vinculación</H1>
@@ -20,7 +28,7 @@
                 <div class = "justify-content-between form-group row">
                     <div class = "col-sm-4">
                         <label for = "exampleFormControlSelect1" class="col-form-label-sm pr-5">Actividades:</label>
-                        <select class="form-control-sm col-sm-7" id="exampleFormControlSelect1" style="width: 18rem;">
+                        <select class="form-control-sm col-sm-7" id="actividadSelect" style="width: 18rem;">
                             <option>Todas</option>
                             <option>Extension</option>
                             <option>Aprendizaje + Servicio</option>
@@ -33,10 +41,10 @@
                         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                         </div>
                         <div class="col-sm-4">
-                            <input placeholder = "Desde" id="datepicker" onkeydown="return false" class="date" name = "fechaInicio"/>
+                            <input placeholder = "Desde" id="dateLow" onkeydown="return false" class="date" name = "fechaInicio"/>
                         </div>
                         <div class="col-sm-4">
-                            <input placeholder = "Hasta" id="datepicker2" onkeydown="return false" class="date" name = "fechaTermino"/>
+                            <input placeholder = "Hasta" id="dateTop" onkeydown="return false" class="date" name = "fechaTermino"/>
                         </div>
                     </div>
                     </div>
@@ -49,54 +57,48 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nombre Actividad</th>
-                        <th scope="col">Tipo Actividad</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Detalle</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td><button type="button" class="btn btn-sm btn-secondary">Secondary</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td><button type="button" class="btn btn-sm btn-secondary">Secondary</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td><button type="button" class="btn btn-sm btn-secondary">Secondary</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td><button type="button" class="btn btn-sm btn-secondary">Secondary</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td><button type="button" class="btn btn-sm btn-secondary">Secondary</button></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper-scroll-y">
+                    <table id="actividadesTable" class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre Actividad</th>
+                            <th scope="col">Tipo Actividad</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($extensiones as $extension)
+                            <tr>
+                                <th scope="row">{{$extension->id}}</th>
+                                <td>{{$extension->nombre}}</td>
+                                <td>Extension</td>
+                                <td>{{$extension->fecha}}</td>
+                                <td><button type="button" class="btn btn-sm btn-secondary">Detalle</button></td>
+                            </tr>
+                        @endforeach
+                        @foreach($asps as $asp)
+                            <tr>
+                                <th scope="row">{{$asp->id}}</th>
+                                <td>{{$asp->nombre}}</td>
+                                <td>Aprendizaje + Servicio</td>
+                                <td>{{$asp->fecha}}</td>
+                                <td><button type="button" class="btn btn-sm btn-secondary">Detalle</button></td>
+                            </tr>
+                        @endforeach
+                        @foreach($titulaciones as $titulacion)
+                            <tr>
+                                <th scope="row">{{$titulacion->id}}</th>
+                                <td>{{$titulacion->nombre}}</td>
+                                <td>Titulacion por convenio</td>
+                                <td>{{$titulacion->fecha_inicio}} a {{$titulacion->fecha_termino}} </td>
+                                <td><button type="button" class="btn btn-sm btn-secondary">Detalle</button></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <br>
@@ -169,31 +171,96 @@
     <script>
         $(document).ready(function () {
 
-            $('#datepicker').datepicker({
+            $('#dateLow').datepicker({
                 forceparse: true,
                 autoclose: true,
                 format: 'yyyy-mm-dd',
                 uiLibrary: 'bootstrap4'
             });
 
-            $('#datepicker2').datepicker({
-                forceparse: true,
-                autoclose: true,
-                format: 'yyyy-mm-dd',
-                uiLibrary: 'bootstrap4'
-            });
-            $('#datepicker3').datepicker({
+            $('#dateTop').datepicker({
                 forceparse: true,
                 autoclose: true,
                 format: 'yyyy-mm-dd',
                 uiLibrary: 'bootstrap4'
             });
 
-            $('#datepicker4').datepicker({
-                forceparse: true,
-                autoclose: true,
-                format: 'yyyy-mm-dd',
-                uiLibrary: 'bootstrap4'
+            $('#filtrar1').click(function() {
+                var input, filter, table, tr, td, i, txtValue,fechaLow,fechaTop
+                    ,fechatd,fecharray,fechatd1,fechatd2;
+                input = document.getElementById("actividadSelect");
+                filter = input.value.toUpperCase();
+                fechaLow = document.getElementById('dateLow').value;
+                fechaTop = document.getElementById('dateTop').value;
+                if(fechaLow == '') fechaLow = '1000-01-01';
+                if(fechaTop == '') fechaTop = '1000-01-01';
+                var fechaLowArray = fechaLow.split('-');
+                var fechaTopArray = fechaTop.split('-');
+                fechaLow = new Date(fechaLowArray[0],fechaLowArray[1],fechaLowArray[2]);
+                fechaTop = new Date(fechaTopArray[0],fechaTopArray[1],fechaTopArray[2]);
+                table = document.getElementById("actividadesTable");
+                tr = table.getElementsByTagName("tr");
+                // Filtrar por actividad
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        fechatd = tr[i].getElementsByTagName("td")[2];
+                        fechatd = fechatd.textContent || fechatd.innerText;
+                        txtValue = td.textContent || td.innerText;
+                        // Si es Titulacion por convenio usa doble fecha
+                        if(txtValue == "Titulacion por convenio"){
+                            fecharray = fechatd.split(' a ');
+                            var fecharray1 = fecharray[0].split('-');
+                            var fecharray2 = fecharray[1].split('-');
+                            fechatd1 = new Date(fecharray1[0],fecharray1[1],fecharray1[2]);
+                            fechatd2 = new Date(fecharray2[0],fecharray2[1],fecharray2[2]);
+
+
+                        }
+                        // Si es ASP Parsear periodo como fecha
+                        if(txtValue == "Aprendizaje + Servicio"){
+                            fecharray = fechatd.split('-');
+                            fechatd1 = fecharray[0];
+                            fechatd2 = fecharray[1];
+                            if(fechatd2 == '1'){
+                                fechatd1 = new Date(fechatd1,3,1);
+                            }else{
+                                fechatd1 = new Date(fechatd1,8,1);
+                            }
+                        }
+
+                        if(txtValue == "Extension"){
+                            fecharray = fechatd.split('-');
+                            fechatd1 = new Date(fecharray[0],fecharray[1],fecharray[2]);
+                        }
+                        if ((txtValue.toUpperCase().indexOf(filter) > -1) || filter == "TODAS" ){
+                            // Checkeo Fecha
+                            if(document.getElementById("defaultCheck1").checked){
+                                if (fechatd1>fechaLow && fechatd1 < fechaTop){
+                                    tr[i].style.display = "";
+                                }else{
+                                    // Checkea si tiene fechatd2
+                                    if(fechatd2 != null){
+                                        if (fechatd2>fechaLow && fechatd2 < fechaTop){
+                                            tr[i].style.display = "";
+                                        }else{
+                                            tr[i].style.display = "none";
+                                        }
+                                    }else{
+                                        tr[i].style.display = "none";
+                                    }
+                                }
+                            }else {
+                                tr[i].style.display = "";
+                            }
+
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                //Filtrar por fecha
+
             });
 
             $('#filtrar2').click(function() {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Convenio;
 use App\Organizacion;
+use App\Progreso;
 use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -68,6 +69,15 @@ class ConvenioController extends Controller
             'evidencia' => $evidenciaURL,
             'organizacion_id' => $data['convenio_id'],
         ]);
+
+        $fecharray = explode('-',$data['fecha_inicio']);
+        $fecharray[0];
+        $progreso = Progreso::get()->where('nombre','N° DE CONVENIOS DE COLABORACIÓN ACTIVOS')->where('indicador_id','1')->where('year',$fecharray[0]);
+        if($progreso != null){
+            $progreso->first()->valor_progreso = $progreso->first()->valor_progreso +1;
+            $progreso->first()->save();
+        }
+
 
         return $this->index();
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Progreso;
 use App\TitulacionConvenio;
 use App\Convenio;
 use App\TitulacionConvenioEstudiante;
@@ -43,7 +44,6 @@ class TitulacionConvenioController extends Controller
     {
 
         $data = request()->all();
-        dd($data);
         $request->validate([
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u',
             'fechaInicio' => 'required',
@@ -91,6 +91,15 @@ class TitulacionConvenioController extends Controller
                 'nombre_profesor' => $profesor,
             ]);
         }
+
+        $fecharray = explode('-',$data['fechaInicio']);
+        $fecharray[0];
+        $progreso = Progreso::get()->where('nombre','N° ACTIVIDADES REALIZADAS')->where('indicador_id','1')->where('year',$fecharray[0]);
+        if($progreso != null){
+            $progreso->first()->valor_progreso = $progreso->first()->valor_progreso +1;
+            $progreso->first()->save();
+        }
+
 
         return $this->index();
     }

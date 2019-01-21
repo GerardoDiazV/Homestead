@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\ActividadASP;
+use App\ActividadExtension;
 use App\Comentario;
+use App\TitulacionConvenio;
 use App\TituladoDISC;
 use Illuminate\Http\Request;
 
@@ -26,9 +29,11 @@ class ConsultarActividadesController extends Controller
     public function create()
     {
 
+        $extensiones = ActividadExtension::select('id','nombre','fecha')->get();
+        $asps = ActividadASP::select('id','asignatura AS nombre','periodo AS fecha')->get();
+        $titulaciones = TitulacionConvenio::select('id','nombre','fecha_inicio','fecha_termino')->get();
         $titulados = TituladoDISC::all();
-
-        return view('consultarActividades',compact('titulados'));//
+        return view('consultarActividades',compact('titulados','extensiones','asps','titulaciones'));//
         //
     }
 

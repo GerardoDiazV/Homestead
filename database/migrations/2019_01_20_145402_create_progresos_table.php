@@ -14,6 +14,7 @@ class CreateProgresosTable extends Migration
     public function up()
     {
         Schema::create('progresos', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('indicador_id');
             $table->foreign('indicador_id')->references('id')->on('indicadors')
                 ->onDelete('cascade');
