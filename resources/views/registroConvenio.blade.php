@@ -9,26 +9,35 @@
         <p><strong>ERROR:</strong> Por favor corregir los siguientes errores</p>
             <ul>
                 @foreach($errors->all() as $error)
-            <li>{{$error}}</li>
+                    <li>{{$error}}</li>
                 @endforeach
-        </ul>
+            </ul>
     </div>
 @endif
 @endsection
 @section('content')
 <div class="container">
-<form autocomplete="off" method="POST" action="{{url('/registroConvenio')}}">
+<form autocomplete="off" method="POST" action="{{route('convenio.store')}} " enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="form-group row">
-        <label for="inputOrganizacion" class="col-sm-2 col-form-label">Nombre de organización</label>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" name= "nombre" id="inputOrganizacion">
+        <label for="inputOrganizacion" class="col-sm-2 col-form-label"> Nombre de organización</label>
+        <select class="form-control col-sm-3" id="convenioSelect" name= "convenio_id">
+            <option value="" disabled selected>Seleccione Organizacion</option>
+            @foreach($organizacions as $organizacion)
+                <option value="{{$organizacion->id}}">
+                    Organizacion: {{$organizacion->nombre}}
+                </option>
+            @endforeach
+        </select>
+        <div class = "col-sm-7">
+            <a class="border col-sm-3 btn btn-secondary" href="{{route('organizacion.create')}}">Nueva Organizacion</a>
         </div>
     </div>
     <div class="form-group row">
         <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Tipo de convenio</label>
         <div class="col-sm-3">
-        <select class="form-control" name = "tipo_convenio" id="exampleFormControlSelect1">
+        <select class="form-control" name = "tipo_convenio" id="tipoSelect">
+            <option value="" disabled selected>Seleccione tipo de convenio</option>
             <option>Capstone</option>
             <option>Marco</option>
             <option>Especifico</option>
@@ -46,7 +55,7 @@
     <div class="form-group row">
         <label for="inputFechaTermino" class="col-sm-2 col-form-label">Fecha Término</label>
         <div class="col-sm-3">
-            <input onkeydown="return false" id="datepicker" class="date" name = "fecha_termino"width="276" />
+            <input onkeydown="return false" id="datepicker2" class="date" name = "fecha_termino"width="276" />
         </div>
     </div>
 
@@ -85,7 +94,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
-                    <a type="button" class="btn btn-primary" href="{{route('menu')}}" role="button">Cancelar registro</a>
+                    <a type="button" class="btn btn-primary" href="{{route('convenio.index')}}" role="button">Cancelar registro</a>
                 </div>
             </div>
         </div>
@@ -102,7 +111,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ¿Esta seguro que desea confirmar el registro??
+                    ¿Esta seguro que desea confirmar el registro?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver al formulario</button>
@@ -119,8 +128,17 @@
             crossorigin="anonymous"></script>
 
     <script>
-        $(document).on('focus', ".date", function() {
-            $(this).datepicker({
+        $(document).ready(function () {
+
+
+            $('#datepicker').datepicker({
+                forceparse: true,
+                autoclose: true,
+                format: 'yyyy-mm-dd',
+                uiLibrary: 'bootstrap4'
+            });
+
+            $('#datepicker2').datepicker({
                 forceparse: true,
                 autoclose: true,
                 format: 'yyyy-mm-dd',

@@ -21,7 +21,7 @@ class CreateActividadExtensionsTable extends Migration
             $table->unsignedInteger(('cant_asistentes'));
             $table->string('evidencia');
             $table->unsignedInteger('convenio_id')->nullable();
-            $table->foreign('convenio_id')->references('id')->on('convenios');
+            $table->foreign('convenio_id')->references('id')->on('convenios')->onDelete('cascade');
             $table->timestamps();
         });
     }

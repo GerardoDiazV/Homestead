@@ -22,9 +22,8 @@ Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user' 
     //Si el Usuario no es Jefe de Carrera o Director
     Route::middleware(['auth', 'role:encargado' || 'role:secretaria' || 'role:user'])->group(function () {
         //Administracion de Convenios (REG-001)
-        Route::get('/registroConvenio', ['uses' => 'ConvenioController@create'])->name('registroConvenio');
-        Route::post('/registroConvenio', ['uses' => 'ConvenioController@store']);
-
+        Route::resource('convenio', 'ConvenioController');
+        Route::resource('organizacion','OrganizacionController');
         //Administracion de Actividad de Extension
         Route::resource('actividad/extension','ActividadExtensionController');
         //Administracion de Actividades de Aprendizaje + Servicios (A+S)
