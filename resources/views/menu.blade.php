@@ -38,16 +38,26 @@
         </div>
         <div class="container ancho p-5">
             @if (Auth::user()->hasAnyRole(['encargado', 'secretaria','user']))
-            <a class="btn btn-secondary btn-block " href="{{route('convenio.index')}}" role="button"><font size="5">Administrar Convenios de Colaboración</font></a>
-            <a class="btn btn-secondary btn-block " href="{{route('asp.index')}}" role="button"><font size="5">Administrar  Actividad de Aprendizaje + Servicios</font></a>
-            <a class="btn btn-secondary btn-block " href="{{route('extension.index')}}" role="button"><font size="5">Administrar Actividad de Extensión</font></a>
-            <a class="btn btn-secondary btn-block " href="{{route('titulados.index')}}" role="button"><font size="5">Administrar Titulados</font></a>
-                <a class="btn btn-secondary btn-block " href="{{route('consultar.create')}}" role="button"><font size="5">Consultar actividades de vinculacion</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('convenio.index')}}" role="button"><font size="5">Administrar Convenios de Colaboración</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('extension.index')}}" role="button"><font size="5">Administrar  Actividad de Aprendizaje + Servicios</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('asp.index')}}" role="button"><font size="5">Administrar Actividad de Extensión</font></a>
             @endif
+
+            @if(Auth::user()->hasAnyRole(['secretaria']))
+                <a class="btn btn-secondary btn-block " href="{{route('titulados.index')}}" role="button"><font size="5">Administrar Titulados</font></a>
+            @endif
+
             @if (Auth::user()->hasAnyRole(['encargado', 'secretaria']))
-                <a class="btn btn-secondary btn-block " href="{{route('titulacion.index')}}" role="button"><font size="5">Administrar actividades de titulacion por convenio</font></a>
-                    <a class="btn btn-secondary btn-block " href="{{route('indicador.consulta')}}" role="button"><font size="5">Consultar estado de indicadores</font></a>
-                    <a class="btn btn-secondary btn-block " href="{{route('indicador.index')}}" role="button"><font size="5">Administrar indicadores</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('titulacion.index')}}" role="button"><font size="5">Administrar Actividades de Titulacion por Convenio</font></a>
+            @endif
+
+            @if(Auth::user()->hasAnyRole(['encargado']))
+                <a class="btn btn-secondary btn-block " href="{{route('indicador.index')}}" role="button"><font size="5">Administrar Indicadores</font></a>
+            @endif
+
+            @if(Auth::user()->hasAnyRole(['encargado','admin']))
+                <a class="btn btn-secondary btn-block " href="{{route('indicador.consulta')}}" role="button"><font size="5">Consultar Estado de Indicadores</font></a>
+                <a class="btn btn-secondary btn-block " href="{{route('consultar.create')}}" role="button"><font size="5">Consultar Actividades de Vinculacion</font></a>
             @endif
         </div>
 
