@@ -103,8 +103,12 @@
                     <input type="text" class="form-control" name= "rutsEstudiantes[]" id="rutEstudiante">
                 </div>
                 <label for="carreraEstudiante" class="col-sm-1 col-form-label">Carrera</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante">
+                <div class="col-sm-3">
+                    <select class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante">
+                        <option value="" disabled selected>Seleccione Carrera</option>
+                        <option>ICCI</option>
+                        <option>IeCI</option>
+                    </select>
                 </div>
             </div>
             <div class = "dinamicInputSpace" id="tableDinamicInput2"></div>

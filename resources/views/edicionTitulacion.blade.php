@@ -154,7 +154,19 @@
                                     </div>
                                     <label for="carreraEstudiante" class="col-sm-1 col-form-label">Carrera</label>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante" value="{{$estudiante->carrera}}">
+                                        <select class="form-control" name= "carrerasEstudiantes[]" id="carreraEstudiante" value="{{$estudiante->carrera}}">
+                                            <option value="" disabled selected>Seleccione Carrera</option>
+                                            @if($estudiante->carrera == 'ICCI')
+                                                <option selected>ICCI</option>
+                                            @else
+                                                <option>ICCI</option>
+                                            @endif
+                                            @if($estudiante->carrera == 'IeCI')
+                                                <option selected>IeCI</option>
+                                            @else
+                                                <option>IeCI</option>
+                                            @endif
+                                        </select>
                                     </div>
                             <input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar">
                             </div>
